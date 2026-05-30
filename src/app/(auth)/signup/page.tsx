@@ -19,25 +19,21 @@ function MobileLogo() {
     <div className="auth-mobile-logo">
       <Link href="/" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.75rem', textDecoration: 'none' }}>
         <svg width="36" height="36" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect width="38" height="38" rx="10" fill="url(#logoGradMobileSU)" />
-          <path d="M11 26V13C11 11.8954 11.8954 11 13 11H19C20.1046 11 21 11.8954 21 13V26" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
-          <path d="M27 26V15C27 13.8954 26.1046 13 25 13H21" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
-          <path d="M14 22H24" stroke="white" strokeWidth="2" strokeOpacity="0.4" />
-          <path d="M14 18H24" stroke="white" strokeWidth="2" strokeOpacity="0.4" />
-          <defs>
-            <linearGradient id="logoGradMobileSU" x1="0" y1="0" x2="38" y2="38" gradientUnits="userSpaceOnUse">
-              <stop stopColor="#6c5ce7" />
-              <stop offset="1" stopColor="#a29bfe" />
-            </linearGradient>
-          </defs>
+          <rect width="38" height="38" fill="var(--bg-secondary)" stroke="var(--brand-primary)" strokeWidth="1.5" />
+          <path d="M12 26V12H20V26" stroke="var(--brand-primary)" strokeWidth="2" strokeLinecap="square" />
+          <path d="M26 26V15H20" stroke="var(--brand-primary)" strokeWidth="2" strokeLinecap="square" />
+          <line x1="15" y1="18" x2="23" y2="18" stroke="var(--text-tertiary)" strokeWidth="1" />
+          <line x1="15" y1="22" x2="23" y2="22" stroke="var(--text-tertiary)" strokeWidth="1" />
         </svg>
         <span style={{
           fontSize: 'var(--font-size-xl)',
-          fontWeight: 800,
-          background: 'var(--gradient-brand)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-        }}>StudyCom</span>
+          fontWeight: 600,
+          fontFamily: 'var(--font-heading)',
+          letterSpacing: '-0.02em',
+          color: 'var(--text-primary)',
+        }}>
+          Study<span style={{ color: 'var(--brand-primary)', fontStyle: 'italic' }}>Com</span>
+        </span>
       </Link>
     </div>
   )
@@ -64,10 +60,10 @@ export default function SignupPage() {
     if (/[A-Z]/.test(pass)) score++
     if (/[^a-zA-Z0-9]/.test(pass)) score++
     
-    if (score <= 2) return { score, label: 'Weak', color: '#ff6b6b' }
-    if (score === 3) return { score, label: 'Fair', color: '#fdcb6e' }
-    if (score === 4) return { score, label: 'Good', color: '#74b9ff' }
-    return { score, label: 'Strong', color: '#00b894' }
+    if (score <= 2) return { score, label: 'Weak', color: '#cf4b4b' }
+    if (score === 3) return { score, label: 'Fair', color: 'var(--brand-primary)' }
+    if (score === 4) return { score, label: 'Good', color: 'var(--brand-secondary-light)' }
+    return { score, label: 'Strong', color: 'var(--brand-secondary-light)' }
   }
 
   const handleSignup = async (e: React.FormEvent) => {
@@ -96,13 +92,13 @@ export default function SignupPage() {
     }
 
     if (data.user) {
-      // If email confirmation is enabled, session will be null and client-side writes to profiles will fail under RLS
+      // If email confirmation is enabled, session will be null
       if (!data.session) {
         router.push('/login?message=check-email')
         return
       }
 
-      // Create profile (user is immediately authenticated since confirmation is off)
+      // Create profile
       const { error: profileError } = await supabase.from('profiles').insert({
         id: data.user.id,
         role,
@@ -148,7 +144,7 @@ export default function SignupPage() {
       <MobileLogo />
 
       <div className="card-static" style={{ padding: '2.5rem' }}>
-        <h2 style={{ fontSize: 'var(--font-size-2xl)', fontWeight: 800, marginBottom: '0.5rem', textAlign: 'center', fontFamily: 'var(--font-heading)' }}>
+        <h2 style={{ fontSize: 'var(--font-size-2xl)', fontWeight: 500, marginBottom: '0.5rem', textAlign: 'center', fontFamily: 'var(--font-heading)' }}>
           Create Account
         </h2>
         <p style={{ color: 'var(--text-secondary)', textAlign: 'center', marginBottom: '2rem', fontSize: 'var(--font-size-sm)' }}>
@@ -159,9 +155,8 @@ export default function SignupPage() {
         <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '2rem' }}>
           {[1, 2].map(s => (
             <div key={s} style={{
-              flex: 1, height: 4,
-              borderRadius: 'var(--radius-full)',
-              background: s <= step ? 'var(--gradient-brand)' : 'var(--bg-glass)',
+              flex: 1, height: 2,
+              background: s <= step ? 'var(--brand-primary)' : 'var(--border-primary)',
               transition: 'all 0.3s ease',
             }} />
           ))}
@@ -170,10 +165,9 @@ export default function SignupPage() {
         {error && (
           <div style={{
             padding: '0.75rem 1rem',
-            background: 'rgba(255, 107, 107, 0.1)',
-            border: '1px solid rgba(255, 107, 107, 0.3)',
-            borderRadius: 'var(--radius-lg)',
-            color: '#ff6b6b',
+            background: 'rgba(207, 75, 75, 0.1)',
+            border: '1px solid rgba(207, 75, 75, 0.3)',
+            color: '#cf4b4b',
             fontSize: 'var(--font-size-sm)',
             marginBottom: '1.5rem',
             lineHeight: 1.5,
@@ -186,7 +180,7 @@ export default function SignupPage() {
           <>
             {/* Social Logins */}
             <div style={{ marginBottom: '1.5rem' }}>
-              <button type="button" className="btn-social" onClick={handleGoogleSignup}>
+              <button type="button" className="btn-social" onClick={handleGoogleSignup} style={{ borderRadius: 0 }}>
                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none" style={{ flexShrink: 0 }}>
                   <path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.909c1.702-1.567 2.683-3.874 2.683-6.616z" fill="#4285F4"/>
                   <path d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.909-2.258c-.806.54-1.837.86-3.047.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.93 5.482 18 9 18z" fill="#34A853"/>
@@ -197,7 +191,7 @@ export default function SignupPage() {
               </button>
             </div>
 
-            <div className="auth-divider">or signup with email</div>
+            <div className="auth-divider" style={{ fontFamily: 'var(--font-mono)' }}>or signup with email</div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginBottom: '1.5rem' }}>
               {roles.map(r => (
@@ -207,9 +201,9 @@ export default function SignupPage() {
                   style={{
                     display: 'flex', alignItems: 'center', gap: '1rem',
                     padding: '1rem 1.25rem',
-                    background: role === r.value ? 'rgba(108, 92, 231, 0.08)' : 'var(--bg-glass)',
+                    background: role === r.value ? 'rgba(216, 168, 56, 0.04)' : 'var(--bg-glass)',
                     border: `1px solid ${role === r.value ? 'var(--brand-primary)' : 'var(--border-primary)'}`,
-                    borderRadius: 'var(--radius-lg)',
+                    borderRadius: 0,
                     cursor: 'pointer',
                     transition: 'all 0.2s ease',
                     textAlign: 'left',
@@ -219,11 +213,11 @@ export default function SignupPage() {
                 >
                   <span style={{ fontSize: '2rem', lineHeight: 1 }}>{r.icon}</span>
                   <div>
-                    <div style={{ fontWeight: 700, marginBottom: '0.125rem', fontSize: 'var(--font-size-sm)' }}>{r.label}</div>
+                    <div style={{ fontWeight: 600, marginBottom: '0.125rem', fontSize: 'var(--font-size-sm)', fontFamily: 'var(--font-heading)' }}>{r.label}</div>
                     <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-secondary)', lineHeight: 1.3 }}>{r.description}</div>
                   </div>
                   {role === r.value && (
-                    <span style={{ marginLeft: 'auto', color: 'var(--brand-primary-light)', fontSize: '1.25rem' }}>✓</span>
+                    <span style={{ marginLeft: 'auto', color: 'var(--brand-primary)', fontSize: '1.25rem', fontFamily: 'var(--font-mono)' }}>✓</span>
                   )}
                 </button>
               ))}
@@ -233,13 +227,13 @@ export default function SignupPage() {
               onClick={() => setStep(2)}
               style={{ width: '100%', padding: '0.875rem', fontSize: 'var(--font-size-base)', fontWeight: 600 }}
             >
-              Continue →
+              Continue
             </button>
           </>
         ) : (
           <form onSubmit={handleSignup}>
             <div className="input-group" style={{ marginBottom: '1rem' }}>
-              <label className="input-label" htmlFor="fullName">Full Name</label>
+              <label className="input-label" htmlFor="fullName" style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem' }}>FULL NAME</label>
               <input
                 id="fullName"
                 type="text"
@@ -248,11 +242,12 @@ export default function SignupPage() {
                 value={fullName}
                 onChange={e => setFullName(e.target.value)}
                 required
+                style={{ borderRadius: 0 }}
               />
             </div>
 
             <div className="input-group" style={{ marginBottom: '1rem' }}>
-              <label className="input-label" htmlFor="signupEmail">Email Address</label>
+              <label className="input-label" htmlFor="signupEmail" style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem' }}>EMAIL ADDRESS</label>
               <input
                 id="signupEmail"
                 type="email"
@@ -261,11 +256,12 @@ export default function SignupPage() {
                 value={email}
                 onChange={e => setEmail(e.target.value)}
                 required
+                style={{ borderRadius: 0 }}
               />
             </div>
 
             <div className="input-group" style={{ marginBottom: '1rem' }}>
-              <label className="input-label" htmlFor="signupPassword">Password</label>
+              <label className="input-label" htmlFor="signupPassword" style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem' }}>PASSWORD</label>
               <input
                 id="signupPassword"
                 type="password"
@@ -275,6 +271,7 @@ export default function SignupPage() {
                 onChange={e => setPassword(e.target.value)}
                 minLength={6}
                 required
+                style={{ borderRadius: 0 }}
               />
               {/* Password strength UI */}
               {password && (
@@ -286,24 +283,23 @@ export default function SignupPage() {
                         style={{
                           flex: 1,
                           height: '4px',
-                          borderRadius: '2px',
-                          background: idx <= strength.score ? strength.color : 'var(--bg-glass)',
+                          background: idx <= strength.score ? strength.color : 'var(--border-primary)',
                           opacity: idx <= strength.score ? 1 : 0.3,
                           transition: 'all 0.3s ease',
                         }}
                       />
                     ))}
                   </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'var(--font-size-xs)' }}>
-                    <span style={{ color: 'var(--text-tertiary)' }}>Password strength</span>
-                    <span style={{ color: strength.color, fontWeight: 600 }}>{strength.label}</span>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'var(--font-size-xs)', fontFamily: 'var(--font-mono)' }}>
+                    <span style={{ color: 'var(--text-tertiary)' }}>STRENGTH</span>
+                    <span style={{ color: strength.color, fontWeight: 600 }}>{strength.label.toUpperCase()}</span>
                   </div>
                 </div>
               )}
             </div>
 
             <div className="input-group" style={{ marginBottom: '1rem' }}>
-              <label className="input-label" htmlFor="phone">Phone (optional)</label>
+              <label className="input-label" htmlFor="phone" style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem' }}>PHONE (OPTIONAL)</label>
               <input
                 id="phone"
                 type="tel"
@@ -311,17 +307,19 @@ export default function SignupPage() {
                 placeholder="+251..."
                 value={phone}
                 onChange={e => setPhone(e.target.value)}
+                style={{ borderRadius: 0 }}
               />
             </div>
 
             {role === 'student' && (
               <div className="input-group" style={{ marginBottom: '1.5rem' }}>
-                <label className="input-label" htmlFor="gradeLevel">Grade Level</label>
+                <label className="input-label" htmlFor="gradeLevel" style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem' }}>GRADE LEVEL</label>
                 <select
                   id="gradeLevel"
                   className="input select"
                   value={gradeLevel}
                   onChange={e => setGradeLevel(Number(e.target.value))}
+                  style={{ borderRadius: 0 }}
                 >
                   {gradeOptions.map(g => (
                     <option key={g} value={g}>Grade {g}</option>
@@ -337,7 +335,7 @@ export default function SignupPage() {
                 onClick={() => setStep(1)}
                 style={{ padding: '0.875rem 1.5rem' }}
               >
-                ← Back
+                Back
               </button>
               <button
                 type="submit"
@@ -363,7 +361,7 @@ export default function SignupPage() {
           color: 'var(--text-secondary)',
         }}>
           Already have an account?{' '}
-          <Link href="/login" style={{ color: 'var(--brand-primary-light)', fontWeight: 600, textDecoration: 'none' }}>
+          <Link href="/login" style={{ color: 'var(--brand-primary)', fontWeight: 600, textDecoration: 'none' }}>
             Sign in
           </Link>
         </p>
@@ -371,12 +369,12 @@ export default function SignupPage() {
 
       {/* Trusted Logos */}
       <div style={{ marginTop: '2.5rem' }}>
-        <div className="trusted-logos-title">Trusted by Students at</div>
+        <div className="trusted-logos-title" style={{ fontFamily: 'var(--font-mono)' }}>TRUSTED BY STUDENTS AT</div>
         <div className="trusted-logos-strip">
-          <span className="trusted-logo">ST. JOSEPH</span>
-          <span className="trusted-logo">LIDETA</span>
-          <span className="trusted-logo">HILLSIDE</span>
-          <span className="trusted-logo">HAWASSA</span>
+          <span className="trusted-logo" style={{ fontFamily: 'var(--font-mono)' }}>ST. JOSEPH</span>
+          <span className="trusted-logo" style={{ fontFamily: 'var(--font-mono)' }}>LIDETA</span>
+          <span className="trusted-logo" style={{ fontFamily: 'var(--font-mono)' }}>HILLSIDE</span>
+          <span className="trusted-logo" style={{ fontFamily: 'var(--font-mono)' }}>HAWASSA</span>
         </div>
       </div>
     </div>

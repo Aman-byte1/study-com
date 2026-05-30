@@ -10,25 +10,21 @@ function MobileLogo() {
     <div className="auth-mobile-logo">
       <Link href="/" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.75rem', textDecoration: 'none' }}>
         <svg width="36" height="36" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect width="38" height="38" rx="10" fill="url(#logoGradMobile)" />
-          <path d="M11 26V13C11 11.8954 11.8954 11 13 11H19C20.1046 11 21 11.8954 21 13V26" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
-          <path d="M27 26V15C27 13.8954 26.1046 13 25 13H21" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
-          <path d="M14 22H24" stroke="white" strokeWidth="2" strokeOpacity="0.4" />
-          <path d="M14 18H24" stroke="white" strokeWidth="2" strokeOpacity="0.4" />
-          <defs>
-            <linearGradient id="logoGradMobile" x1="0" y1="0" x2="38" y2="38" gradientUnits="userSpaceOnUse">
-              <stop stopColor="#6c5ce7" />
-              <stop offset="1" stopColor="#a29bfe" />
-            </linearGradient>
-          </defs>
+          <rect width="38" height="38" fill="var(--bg-secondary)" stroke="var(--brand-primary)" strokeWidth="1.5" />
+          <path d="M12 26V12H20V26" stroke="var(--brand-primary)" strokeWidth="2" strokeLinecap="square" />
+          <path d="M26 26V15H20" stroke="var(--brand-primary)" strokeWidth="2" strokeLinecap="square" />
+          <line x1="15" y1="18" x2="23" y2="18" stroke="var(--text-tertiary)" strokeWidth="1" />
+          <line x1="15" y1="22" x2="23" y2="22" stroke="var(--text-tertiary)" strokeWidth="1" />
         </svg>
         <span style={{
           fontSize: 'var(--font-size-xl)',
-          fontWeight: 800,
-          background: 'var(--gradient-brand)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-        }}>StudyCom</span>
+          fontWeight: 600,
+          fontFamily: 'var(--font-heading)',
+          letterSpacing: '-0.02em',
+          color: 'var(--text-primary)',
+        }}>
+          Study<span style={{ color: 'var(--brand-primary)', fontStyle: 'italic' }}>Com</span>
+        </span>
       </Link>
     </div>
   )
@@ -95,7 +91,7 @@ function LoginForm() {
 
       {/* Card */}
       <div className="card-static" style={{ padding: '2.5rem' }}>
-        <h2 style={{ fontSize: 'var(--font-size-2xl)', fontWeight: 800, marginBottom: '0.5rem', textAlign: 'center', fontFamily: 'var(--font-heading)' }}>
+        <h2 style={{ fontSize: 'var(--font-size-2xl)', fontWeight: 500, marginBottom: '0.5rem', textAlign: 'center', fontFamily: 'var(--font-heading)' }}>
           Welcome Back
         </h2>
         <p style={{ color: 'var(--text-secondary)', textAlign: 'center', marginBottom: '2rem', fontSize: 'var(--font-size-sm)' }}>
@@ -105,10 +101,9 @@ function LoginForm() {
         {error && (
           <div style={{
             padding: '0.75rem 1rem',
-            background: 'rgba(255, 107, 107, 0.1)',
-            border: '1px solid rgba(255, 107, 107, 0.3)',
-            borderRadius: 'var(--radius-lg)',
-            color: '#ff6b6b',
+            background: 'rgba(207, 75, 75, 0.1)',
+            border: '1px solid rgba(207, 75, 75, 0.3)',
+            color: '#cf4b4b',
             fontSize: 'var(--font-size-sm)',
             marginBottom: '1.5rem',
             lineHeight: 1.5,
@@ -120,10 +115,9 @@ function LoginForm() {
         {!error && urlError === 'profile-not-found' && (
           <div style={{
             padding: '0.75rem 1rem',
-            background: 'rgba(255, 107, 107, 0.1)',
-            border: '1px solid rgba(255, 107, 107, 0.3)',
-            borderRadius: 'var(--radius-lg)',
-            color: '#ff6b6b',
+            background: 'rgba(207, 75, 75, 0.1)',
+            border: '1px solid rgba(207, 75, 75, 0.3)',
+            color: '#cf4b4b',
             fontSize: 'var(--font-size-sm)',
             marginBottom: '1.5rem',
             lineHeight: 1.5,
@@ -135,10 +129,9 @@ function LoginForm() {
         {!error && urlError === 'profile-creation-failed' && (
           <div style={{
             padding: '0.75rem 1rem',
-            background: 'rgba(255, 107, 107, 0.1)',
-            border: '1px solid rgba(255, 107, 107, 0.3)',
-            borderRadius: 'var(--radius-lg)',
-            color: '#ff6b6b',
+            background: 'rgba(207, 75, 75, 0.1)',
+            border: '1px solid rgba(207, 75, 75, 0.3)',
+            color: '#cf4b4b',
             fontSize: 'var(--font-size-sm)',
             marginBottom: '1.5rem',
             lineHeight: 1.5,
@@ -150,10 +143,9 @@ function LoginForm() {
         {!error && message === 'check-email' && (
           <div style={{
             padding: '0.75rem 1rem',
-            background: 'rgba(0, 184, 148, 0.1)',
-            border: '1px solid rgba(0, 184, 148, 0.3)',
-            borderRadius: 'var(--radius-lg)',
-            color: '#00b894',
+            background: 'rgba(61, 90, 80, 0.1)',
+            border: '1px solid rgba(61, 90, 80, 0.3)',
+            color: 'var(--brand-secondary-light)',
             fontSize: 'var(--font-size-sm)',
             marginBottom: '1.5rem',
             lineHeight: 1.5,
@@ -164,7 +156,7 @@ function LoginForm() {
 
         {/* Social Logins */}
         <div style={{ marginBottom: '1.5rem' }}>
-          <button type="button" className="btn-social" onClick={handleGoogleLogin}>
+          <button type="button" className="btn-social" onClick={handleGoogleLogin} style={{ borderRadius: 0 }}>
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none" style={{ flexShrink: 0 }}>
               <path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.909c1.702-1.567 2.683-3.874 2.683-6.616z" fill="#4285F4"/>
               <path d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.909-2.258c-.806.54-1.837.86-3.047.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.93 5.482 18 9 18z" fill="#34A853"/>
@@ -175,11 +167,11 @@ function LoginForm() {
           </button>
         </div>
 
-        <div className="auth-divider">or continue with email</div>
+        <div className="auth-divider" style={{ fontFamily: 'var(--font-mono)' }}>or continue with email</div>
 
         <form onSubmit={handleLogin}>
           <div className="input-group" style={{ marginBottom: '1.25rem' }}>
-            <label className="input-label" htmlFor="email">Email Address</label>
+            <label className="input-label" htmlFor="email" style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem' }}>EMAIL ADDRESS</label>
             <input
               id="email"
               type="email"
@@ -188,14 +180,15 @@ function LoginForm() {
               value={email}
               onChange={e => setEmail(e.target.value)}
               required
+              style={{ borderRadius: 0 }}
             />
           </div>
 
           <div className="input-group" style={{ marginBottom: '1.75rem' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.375rem' }}>
-              <label className="input-label" htmlFor="password" style={{ margin: 0 }}>Password</label>
-              <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--brand-primary-light)', cursor: 'pointer', fontWeight: 500 }}>
-                Forgot?
+              <label className="input-label" htmlFor="password" style={{ margin: 0, fontFamily: 'var(--font-mono)', fontSize: '0.7rem' }}>PASSWORD</label>
+              <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--brand-primary)', cursor: 'pointer', fontWeight: 500, fontFamily: 'var(--font-mono)' }}>
+                FORGOT?
               </span>
             </div>
             <input
@@ -206,6 +199,7 @@ function LoginForm() {
               value={password}
               onChange={e => setPassword(e.target.value)}
               required
+              style={{ borderRadius: 0 }}
             />
           </div>
 
@@ -231,7 +225,7 @@ function LoginForm() {
           color: 'var(--text-secondary)',
         }}>
           Don&apos;t have an account?{' '}
-          <Link href="/signup" style={{ color: 'var(--brand-primary-light)', fontWeight: 600, textDecoration: 'none' }}>
+          <Link href="/signup" style={{ color: 'var(--brand-primary)', fontWeight: 600, textDecoration: 'none' }}>
             Create one
           </Link>
         </p>
@@ -239,12 +233,12 @@ function LoginForm() {
 
       {/* Trusted Logos */}
       <div style={{ marginTop: '2.5rem' }}>
-        <div className="trusted-logos-title">Trusted by Students at</div>
+        <div className="trusted-logos-title" style={{ fontFamily: 'var(--font-mono)' }}>TRUSTED BY STUDENTS AT</div>
         <div className="trusted-logos-strip">
-          <span className="trusted-logo">ST. JOSEPH</span>
-          <span className="trusted-logo">LIDETA</span>
-          <span className="trusted-logo">HILLSIDE</span>
-          <span className="trusted-logo">HAWASSA</span>
+          <span className="trusted-logo" style={{ fontFamily: 'var(--font-mono)' }}>ST. JOSEPH</span>
+          <span className="trusted-logo" style={{ fontFamily: 'var(--font-mono)' }}>LIDETA</span>
+          <span className="trusted-logo" style={{ fontFamily: 'var(--font-mono)' }}>HILLSIDE</span>
+          <span className="trusted-logo" style={{ fontFamily: 'var(--font-mono)' }}>HAWASSA</span>
         </div>
       </div>
     </div>

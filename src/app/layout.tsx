@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#6c5ce7",
+  themeColor: "#d8a838",
   width: "device-width",
   initialScale: 1,
 };
@@ -22,6 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <div className="grain-overlay" />
         {children}
       </body>
     </html>

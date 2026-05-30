@@ -108,12 +108,12 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
       const isLast = idx === paths.length - 1
       return (
-        <span key={href} style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', fontSize: 'var(--font-size-xs)' }}>
+        <span key={href} style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', fontSize: 'var(--font-size-xs)', fontFamily: 'var(--font-mono)' }}>
           {idx > 0 && <span style={{ color: 'var(--text-tertiary)', margin: '0 2px' }}>/</span>}
           {isLast ? (
-            <span style={{ color: 'var(--brand-primary-light)', fontWeight: 600 }}>{label}</span>
+            <span style={{ color: 'var(--brand-primary)', fontWeight: 600 }}>{label.toUpperCase()}</span>
           ) : (
-            <Link href={href} style={{ color: 'var(--text-secondary)', textDecoration: 'none' }}>{label}</Link>
+            <Link href={href} style={{ color: 'var(--text-secondary)', textDecoration: 'none' }}>{label.toUpperCase()}</Link>
           )}
         </span>
       )
@@ -136,51 +136,68 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   return (
     <div>
       {/* Sidebar */}
-      <aside className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
+      <aside className="sidebar dots-pattern">
         <div className="sidebar-logo">
           <svg width="28" height="28" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="38" height="38" rx="10" fill="url(#logoGradSidebar)" />
-            <path d="M11 26V13C11 11.8954 11.8954 11 13 11H19C20.1046 11 21 11.8954 21 13V26" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
-            <path d="M27 26V15C27 13.8954 26.1046 13 25 13H21" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
-            <path d="M14 22H24" stroke="white" strokeWidth="2" strokeOpacity="0.4" />
-            <path d="M14 18H24" stroke="white" strokeWidth="2" strokeOpacity="0.4" />
-            <defs>
-              <linearGradient id="logoGradSidebar" x1="0" y1="0" x2="38" y2="38" gradientUnits="userSpaceOnUse">
-                <stop stopColor="#6c5ce7" />
-                <stop offset="1" stopColor="#a29bfe" />
-              </linearGradient>
-            </defs>
+            <rect width="38" height="38" fill="var(--bg-secondary)" stroke="var(--brand-primary)" strokeWidth="1.5" />
+            <path d="M12 26V12H20V26" stroke="var(--brand-primary)" strokeWidth="2" strokeLinecap="square" />
+            <path d="M26 26V15H20" stroke="var(--brand-primary)" strokeWidth="2" strokeLinecap="square" />
           </svg>
-          <span className="sidebar-logo-text">StudyCom</span>
+          <span style={{
+            fontSize: 'var(--font-size-lg)',
+            fontWeight: 600,
+            fontFamily: 'var(--font-heading)',
+            letterSpacing: '-0.02em',
+            color: 'var(--text-primary)'
+          }}>
+            Study<span style={{ color: 'var(--brand-primary)', fontStyle: 'italic' }}>Com</span>
+          </span>
         </div>
 
         <nav className="sidebar-nav">
           <div className="sidebar-section">
-            <div className="sidebar-section-title">Menu</div>
+            <div className="sidebar-section-title" style={{ fontFamily: 'var(--font-mono)' }}>Navigation</div>
           </div>
-          {items.map(item => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`sidebar-link ${pathname === item.href ? 'active' : ''}`}
-              onClick={() => setSidebarOpen(false)}
-            >
-              <span className="sidebar-link-icon">{item.icon}</span>
-              <span>{item.label}</span>
-            </Link>
-          ))}
+          {items.map(item => {
+            const isActive = pathname === item.href
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`sidebar-link ${isActive ? 'active' : ''}`}
+                onClick={() => setSidebarOpen(false)}
+                style={{
+                  borderRadius: 0,
+                  borderLeft: isActive ? '2px solid var(--brand-primary)' : '2px solid transparent',
+                  background: isActive ? 'rgba(216, 168, 56, 0.04)' : 'transparent',
+                  color: isActive ? 'var(--text-primary)' : 'var(--text-secondary)'
+                }}
+              >
+                <span className="sidebar-link-icon">{item.icon}</span>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8rem', letterSpacing: '0.02em' }}>{item.label.toUpperCase()}</span>
+              </Link>
+            )
+          })}
         </nav>
 
         <div className="sidebar-footer">
           <div style={{
-            display: 'flex', alignItems: 'center', gap: '0.75rem',
-            padding: '0.85rem', borderRadius: 'var(--radius-xl)',
-            background: 'var(--bg-glass)',
-            border: '1px solid var(--border-secondary)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.75rem',
+            padding: '0.85rem',
+            background: 'var(--bg-secondary)',
+            border: '1px solid var(--border-primary)',
           }}>
-            <div className="avatar avatar-sm" style={{ background: 'var(--gradient-brand)', color: 'white', fontWeight: 700 }}>{initials}</div>
+            <div className="avatar avatar-sm" style={{
+              background: 'var(--bg-primary)',
+              color: 'var(--brand-primary)',
+              border: '1px solid var(--brand-primary)',
+              fontWeight: 700,
+              borderRadius: 0
+            }}>{initials}</div>
             <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ fontSize: 'var(--font-size-sm)', fontWeight: 700, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+              <div style={{ fontSize: 'var(--font-size-sm)', fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                 {profile.full_name}
               </div>
               <div style={{ display: 'inline-flex', marginTop: '2px' }}>
@@ -189,10 +206,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                   fontWeight: 800,
                   textTransform: 'uppercase',
                   letterSpacing: '0.04em',
-                  background: 'rgba(108, 92, 231, 0.15)',
-                  color: 'var(--brand-primary-light)',
+                  background: 'rgba(216, 168, 56, 0.1)',
+                  color: 'var(--brand-primary)',
                   padding: '1px 6px',
-                  borderRadius: 'var(--radius-sm)',
+                  borderRadius: 0,
+                  fontFamily: 'var(--font-mono)'
                 }}>
                   {profile.role}
                 </span>
@@ -207,7 +225,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         <div
           style={{
             position: 'fixed', inset: 0,
-            background: 'rgba(0,0,0,0.5)',
+            background: 'rgba(0,0,0,0.6)',
             zIndex: 299,
           }}
           onClick={() => setSidebarOpen(false)}
@@ -224,8 +242,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
               {getBreadcrumbs()}
             </div>
-            <h2 className="topbar-title" style={{ margin: 0, fontSize: 'var(--font-size-lg)', fontWeight: 800, fontFamily: 'var(--font-heading)' }}>
-              {greeting}, {firstName} 👋
+            <h2 className="topbar-title" style={{ margin: 0, fontSize: 'var(--font-size-lg)', fontWeight: 500, fontFamily: 'var(--font-heading)' }}>
+              {greeting}, <span style={{ fontStyle: 'italic', color: 'var(--brand-primary)' }}>{firstName}</span>
             </h2>
           </div>
         </div>
@@ -235,25 +253,25 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           <div style={{ position: 'relative' }}>
             <button className="notification-btn" onClick={() => { setShowNotifs(!showNotifs); setShowUserMenu(false) }}>
               🔔
-              {unreadCount > 0 && <span className="notification-dot" />}
+              {unreadCount > 0 && <span className="notification-dot" style={{ background: 'var(--brand-primary)' }} />}
             </button>
             {showNotifs && (
-              <div className="notification-dropdown">
-                <div style={{ padding: '1rem', borderBottom: '1px solid var(--border-primary)', fontWeight: 600 }}>
-                  Notifications
-                  {unreadCount > 0 && <span className="badge badge-primary" style={{ marginLeft: '0.5rem' }}>{unreadCount}</span>}
+              <div className="notification-dropdown" style={{ borderRadius: 0 }}>
+                <div style={{ padding: '1rem', borderBottom: '1px solid var(--border-primary)', fontWeight: 600, fontFamily: 'var(--font-mono)', fontSize: '0.75rem' }}>
+                  NOTIFICATIONS
+                  {unreadCount > 0 && <span className="badge badge-primary" style={{ marginLeft: '0.5rem', borderRadius: 0 }}>{unreadCount}</span>}
                 </div>
                 {notifications.length === 0 ? (
-                  <div style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-tertiary)' }}>
+                  <div style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-tertiary)', fontSize: 'var(--font-size-sm)' }}>
                     No notifications yet
                   </div>
                 ) : (
                   notifications.map(n => (
-                    <div key={n.id} className={`notification-item ${!n.is_read ? 'unread' : ''}`}>
+                    <div key={n.id} className={`notification-item ${!n.is_read ? 'unread' : ''}`} style={{ borderBottom: '1px solid var(--border-secondary)' }}>
                       <div>
-                        <div style={{ fontWeight: 500, fontSize: 'var(--font-size-sm)', marginBottom: '0.25rem' }}>{n.title}</div>
+                        <div style={{ fontWeight: 600, fontSize: 'var(--font-size-sm)', marginBottom: '0.25rem' }}>{n.title}</div>
                         <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-secondary)' }}>{n.message}</div>
-                        <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-tertiary)', marginTop: '0.25rem' }}>
+                        <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-tertiary)', marginTop: '0.25rem', fontFamily: 'var(--font-mono)' }}>
                           {new Date(n.created_at).toLocaleDateString()}
                         </div>
                       </div>
@@ -274,17 +292,23 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 color: 'var(--text-primary)',
               }}
             >
-              <div className="avatar avatar-sm" style={{ background: 'var(--gradient-brand)', color: 'white', fontWeight: 700 }}>{initials}</div>
+              <div className="avatar avatar-sm" style={{
+                background: 'var(--bg-secondary)',
+                color: 'var(--brand-primary)',
+                border: '1px solid var(--brand-primary)',
+                fontWeight: 700,
+                borderRadius: 0
+              }}>{initials}</div>
             </button>
             {showUserMenu && (
-              <div className="user-dropdown">
+              <div className="user-dropdown" style={{ borderRadius: 0 }}>
                 <div style={{ padding: '0.75rem 1rem', borderBottom: '1px solid var(--border-secondary)' }}>
-                  <div style={{ fontWeight: 700, fontSize: 'var(--font-size-sm)' }}>{profile.full_name}</div>
-                  <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-tertiary)', textTransform: 'capitalize' }}>{profile.role}</div>
+                  <div style={{ fontWeight: 600, fontSize: 'var(--font-size-sm)' }}>{profile.full_name}</div>
+                  <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-tertiary)', fontFamily: 'var(--font-mono)' }}>{profile.role.toUpperCase()}</div>
                 </div>
                 <div style={{ padding: '0.25rem' }}>
-                  <button className="user-dropdown-item" onClick={handleLogout}>
-                    🚪 Sign Out
+                  <button className="user-dropdown-item" onClick={handleLogout} style={{ borderRadius: 0, fontFamily: 'var(--font-mono)', fontSize: '0.75rem' }}>
+                    🚪 SIGN OUT
                   </button>
                 </div>
               </div>
@@ -308,9 +332,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 key={item.href}
                 href={item.href}
                 className={`mobile-nav-item ${isActive ? 'active' : ''}`}
+                style={{ color: isActive ? 'var(--brand-primary)' : 'var(--text-tertiary)' }}
               >
                 {item.icon}
-                <span>{item.label}</span>
+                <span style={{ fontFamily: 'var(--font-mono)' }}>{item.label.toUpperCase()}</span>
               </Link>
             )
           })}

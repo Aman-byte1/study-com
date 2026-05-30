@@ -5,28 +5,22 @@ import Link from 'next/link'
 function Logo() {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-      <svg width="40" height="40" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect width="38" height="38" rx="10" fill="url(#logoGradLayout)" />
-        <path d="M11 26V13C11 11.8954 11.8954 11 13 11H19C20.1046 11 21 11.8954 21 13V26" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
-        <path d="M27 26V15C27 13.8954 26.1046 13 25 13H21" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
-        <path d="M14 22H24" stroke="white" strokeWidth="2" strokeOpacity="0.4" />
-        <path d="M14 18H24" stroke="white" strokeWidth="2" strokeOpacity="0.4" />
-        <defs>
-          <linearGradient id="logoGradLayout" x1="0" y1="0" x2="38" y2="38" gradientUnits="userSpaceOnUse">
-            <stop stopColor="#6c5ce7" />
-            <stop offset="1" stopColor="#a29bfe" />
-          </linearGradient>
-        </defs>
+      <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="38" height="38" fill="var(--bg-secondary)" stroke="var(--brand-primary)" strokeWidth="1.5" />
+        <path d="M12 26V12H20V26" stroke="var(--brand-primary)" strokeWidth="2" strokeLinecap="square" />
+        <path d="M26 26V15H20" stroke="var(--brand-primary)" strokeWidth="2" strokeLinecap="square" />
+        <line x1="15" y1="18" x2="23" y2="18" stroke="var(--text-tertiary)" strokeWidth="1" />
+        <line x1="15" y1="22" x2="23" y2="22" stroke="var(--text-tertiary)" strokeWidth="1" />
       </svg>
       <span style={{
         fontSize: 'var(--font-size-xl)',
-        fontWeight: 800,
+        fontWeight: 600,
         fontFamily: 'var(--font-heading)',
-        letterSpacing: '-0.03em',
-        background: 'var(--gradient-brand)',
-        WebkitBackgroundClip: 'text',
-        WebkitTextFillColor: 'transparent',
-      }}>StudyCom</span>
+        letterSpacing: '-0.02em',
+        color: 'var(--text-primary)',
+      }}>
+        Study<span style={{ color: 'var(--brand-primary)', fontStyle: 'italic' }}>Com</span>
+      </span>
     </div>
   )
 }
@@ -35,23 +29,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
   return (
     <div className="auth-container">
       {/* Sidebar Branding (Desktop only) */}
-      <aside className="auth-sidebar dots-pattern">
-        {/* Floating Orbs for depth */}
-        <div className="floating-orb-1" style={{
-          position: 'absolute', top: '-10%', left: '-10%',
-          width: '350px', height: '350px',
-          background: 'radial-gradient(circle, rgba(108, 92, 231, 0.1) 0%, transparent 70%)',
-          borderRadius: '50%', filter: 'blur(60px)',
-          pointerEvents: 'none'
-        }} />
-        <div className="floating-orb-2" style={{
-          position: 'absolute', bottom: '-10%', right: '-10%',
-          width: '300px', height: '300px',
-          background: 'radial-gradient(circle, rgba(0, 206, 201, 0.08) 0%, transparent 70%)',
-          borderRadius: '50%', filter: 'blur(50px)',
-          pointerEvents: 'none'
-        }} />
-
+      <aside className="auth-sidebar grid-pattern">
         {/* Top Header */}
         <div style={{ position: 'relative', zIndex: 10 }}>
           <Link href="/" style={{ textDecoration: 'none' }}>
@@ -61,16 +39,19 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
 
         {/* Middle Content */}
         <div style={{ position: 'relative', zIndex: 10, margin: '4rem 0' }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--font-size-xs)', color: 'var(--brand-primary)', letterSpacing: '0.1em' }}>
+            PORTAL SIGN-IN
+          </span>
           <h1 style={{
             fontSize: 'clamp(2rem, 3.5vw, 3rem)',
-            fontWeight: 800,
+            fontWeight: 500,
             lineHeight: 1.15,
             marginBottom: '1.75rem',
-            letterSpacing: '-0.03em',
+            letterSpacing: '-0.01em',
             fontFamily: 'var(--font-heading)',
+            marginTop: '0.5rem'
           }}>
-            Accelerate Your Academic{' '}
-            <span className="animated-gradient-text">Success</span>
+            Accelerate Your Academic <span style={{ color: 'var(--brand-primary)', fontStyle: 'italic' }}>Success</span>
           </h1>
           <p style={{
             fontSize: 'var(--font-size-base)',
@@ -90,16 +71,15 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
             ].map((feature, idx) => (
               <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                 <div style={{
-                  width: '24px',
-                  height: '24px',
-                  borderRadius: '50%',
-                  background: 'rgba(108, 92, 231, 0.15)',
+                  width: '20px',
+                  height: '20px',
+                  border: '1px solid var(--brand-primary)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  color: 'var(--brand-primary-light)',
-                  fontWeight: 'bold',
-                  fontSize: '0.85rem'
+                  color: 'var(--brand-primary)',
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: '0.65rem'
                 }}>✓</div>
                 <span style={{ fontSize: 'var(--font-size-sm)', fontWeight: 500, color: 'var(--text-secondary)' }}>{feature}</span>
               </div>
@@ -109,23 +89,14 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
 
         {/* Footer */}
         <div style={{ position: 'relative', zIndex: 10 }}>
-          <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-tertiary)', margin: 0 }}>
-            © 2026 StudyCom. Designed under Federal Ministry of Education curriculum guidelines.
+          <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-tertiary)', margin: 0, fontFamily: 'var(--font-mono)' }}>
+            © 2026 STUDYCOM. INCORPORATED UNDER MINISTRY CURRICULUM BLUEPRINTS.
           </p>
         </div>
       </aside>
 
       {/* Auth Form Area */}
-      <main className="auth-content grid-pattern">
-        {/* Floating background orbs for content side */}
-        <div className="floating-orb-3" style={{
-          position: 'absolute', top: '30%', right: '10%',
-          width: '250px', height: '250px',
-          background: 'radial-gradient(circle, rgba(108, 92, 231, 0.08) 0%, transparent 60%)',
-          borderRadius: '50%', filter: 'blur(50px)',
-          pointerEvents: 'none'
-        }} />
-
+      <main className="auth-content dots-pattern">
         <div style={{ position: 'relative', zIndex: 10, width: '100%', maxWidth: '440px' }}>
           {children}
         </div>

@@ -6,127 +6,84 @@ import { useEffect, useState } from 'react'
 function Logo() {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-      <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect width="38" height="38" rx="10" fill="url(#logoGrad)" />
-        <path d="M11 26V13C11 11.8954 11.8954 11 13 11H19C20.1046 11 21 11.8954 21 13V26" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
-        <path d="M27 26V15C27 13.8954 26.1046 13 25 13H21" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
-        <path d="M14 22H24" stroke="white" strokeWidth="2" strokeOpacity="0.4" />
-        <path d="M14 18H24" stroke="white" strokeWidth="2" strokeOpacity="0.4" />
-        <defs>
-          <linearGradient id="logoGrad" x1="0" y1="0" x2="38" y2="38" gradientUnits="userSpaceOnUse">
-            <stop stopColor="#6c5ce7" />
-            <stop offset="1" stopColor="#a29bfe" />
-          </linearGradient>
-        </defs>
+      <svg width="36" height="36" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="38" height="38" fill="var(--bg-secondary)" stroke="var(--brand-primary)" strokeWidth="1.5" />
+        <path d="M12 26V12H20V26" stroke="var(--brand-primary)" strokeWidth="2" strokeLinecap="square" />
+        <path d="M26 26V15H20" stroke="var(--brand-primary)" strokeWidth="2" strokeLinecap="square" />
+        <line x1="15" y1="18" x2="23" y2="18" stroke="var(--text-tertiary)" strokeWidth="1" />
+        <line x1="15" y1="22" x2="23" y2="22" stroke="var(--text-tertiary)" strokeWidth="1" />
       </svg>
       <span style={{
         fontSize: 'var(--font-size-xl)',
-        fontWeight: 800,
+        fontWeight: 600,
         fontFamily: 'var(--font-heading)',
-        letterSpacing: '-0.03em',
-        background: 'var(--gradient-brand)',
-        WebkitBackgroundClip: 'text',
-        WebkitTextFillColor: 'transparent',
-      }}>StudyCom</span>
+        letterSpacing: '-0.02em',
+        color: 'var(--text-primary)',
+      }}>
+        Study<span style={{ color: 'var(--brand-primary)', fontStyle: 'italic' }}>Com</span>
+      </span>
     </div>
   )
 }
 
 const features = [
   {
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect>
-        <line x1="7" y1="2" x2="7" y2="22"></line>
-        <line x1="17" y1="2" x2="17" y2="22"></line>
-        <line x1="2" y1="12" x2="22" y2="12"></line>
-        <line x1="2" y1="7" x2="7" y2="7"></line>
-        <line x1="2" y1="17" x2="7" y2="17"></line>
-        <line x1="17" y1="17" x2="22" y2="17"></line>
-        <line x1="17" y1="7" x2="22" y2="7"></line>
-      </svg>
-    ),
+    code: "CURR-0912",
     title: 'Curriculum Video Lessons',
     description: 'High-definition video courses from expert Ethiopian educators mapped exactly to the Grades 9-12 national syllabus.'
   },
   {
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-        <polyline points="14 2 14 8 20 8"></polyline>
-        <line x1="16" y1="13" x2="8" y2="13"></line>
-        <line x1="16" y1="17" x2="8" y2="17"></line>
-        <polyline points="10 9 9 9 8 9"></polyline>
-      </svg>
-    ),
+    code: "EUEE-PREP",
     title: 'Interactive National Prep',
     description: 'Simulate the Ethiopian University Entrance Exam (EUEE) with thousands of past questions and immediate deep analytics.'
   },
   {
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-        <line x1="16" y1="2" x2="16" y2="6"></line>
-        <line x1="8" y1="2" x2="8" y2="6"></line>
-        <line x1="3" y1="10" x2="21" y2="10"></line>
-      </svg>
-    ),
+    code: "SCHD-AUTO",
     title: 'AI-Guided Scheduling',
     description: 'A study calendar that auto-adjusts based on your exam dates, current progress levels, and daily availability.'
   },
   {
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M3 3v18h18"></path>
-        <path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"></path>
-      </svg>
-    ),
+    code: "ANLY-TUTR",
     title: 'Progress Insights',
     description: 'Real-time performance graphs and dashboards for students, linking tutors and parents to unified tracking.'
   },
   {
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-      </svg>
-    ),
+    code: "CHAT-LIVE",
     title: 'Instant Tutor Chat',
     description: 'Unstuck instantly. Secure 1-on-1 text channel linking you to verified expert instructors for custom guidance.'
   },
   {
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-      </svg>
-    ),
+    code: "DOCS-CURD",
     title: 'Curated Study Materials',
     description: 'Downloadable summary notebooks, formulas booklets, and sample test collections created by certified tutors.'
   }
 ]
 
 const subjects = [
-  { name: 'Mathematics', icon: '📐', color: '#6c5ce7' },
-  { name: 'Physics', icon: '⚛️', color: '#00cec9' },
-  { name: 'Chemistry', icon: '🧪', color: '#fd79a8' },
-  { name: 'Biology', icon: '🧬', color: '#00b894' },
-  { name: 'English', icon: '🗣️', color: '#74b9ff' },
-  { name: 'Civics', icon: '⚖️', color: '#fdcb6e' },
+  { name: 'Mathematics', icon: '📐', code: 'MATH' },
+  { name: 'Physics', icon: '⚛️', code: 'PHYS' },
+  { name: 'Chemistry', icon: '🧪', code: 'CHEM' },
+  { name: 'Biology', icon: '🧬', code: 'BIOL' },
+  { name: 'English', icon: '🗣️', code: 'ENGL' },
+  { name: 'Civics', icon: '⚖️', code: 'CIVC' },
 ]
 
 const steps = [
   {
     number: '01',
+    phase: 'REGISTRATION',
     title: 'Select Your Path',
     description: 'Sign up as a student, parent, or tutor. Customize your grade level and target curriculum in seconds.'
   },
   {
     number: '02',
+    phase: 'ACQUISITION',
     title: 'Unlock Premium Content',
     description: 'Study syllabus-aligned lessons, take interactive chapter quizzes, and ask questions to professional tutors.'
   },
   {
     number: '03',
+    phase: 'EVALUATION',
     title: 'Excel in Your Exams',
     description: 'Use real-time analytics to spot weak points. Polish test-taking skills and ace your national EUEE examinations.'
   }
@@ -138,29 +95,26 @@ const testimonials = [
     name: "Rediet Kebede",
     role: "Grade 12 Student, Addis Ababa",
     avatar: "RK",
-    rating: 5
   },
   {
     quote: "As a parent, I used to worry about whether my daughter was studying. StudyCom allows me to check her quiz scores and scheduling history daily. Her math grade went from C to A.",
     name: "Abebe Demeke",
     role: "Parent of Grade 10 Student, Hawassa",
     avatar: "AD",
-    rating: 5
   },
   {
     quote: "Being able to upload my lecture notebooks and assign chapter quizzes to my students on StudyCom is excellent. It connects student progress directly to my tutor dashboard.",
     name: "Tutor Selamawit G.",
     role: "Senior Math Instructor, Adama",
     avatar: "SG",
-    rating: 5
   }
 ]
 
 const stats = [
-  { value: '12,500+', label: 'Active Students' },
-  { value: '94.2%', label: 'EUEE Pass Rate' },
-  { value: '650+', label: 'Video Lessons' },
-  { value: '50+', label: 'Expert Educators' },
+  { value: '12,500+', label: 'Active Students', code: 'STAT-01' },
+  { value: '94.2%', label: 'EUEE Pass Rate', code: 'STAT-02' },
+  { value: '650+', label: 'Video Lessons', code: 'STAT-03' },
+  { value: '50+', label: 'Expert Educators', code: 'STAT-04' },
 ]
 
 export default function LandingPage() {
@@ -173,7 +127,7 @@ export default function LandingPage() {
   }, [])
 
   return (
-    <div style={{ background: 'var(--bg-primary)', minHeight: '100vh' }} className="grid-pattern">
+    <div style={{ background: 'var(--bg-primary)', minHeight: '100vh', position: 'relative' }}>
       {/* Navigation */}
       <nav style={{
         position: 'fixed',
@@ -185,18 +139,17 @@ export default function LandingPage() {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        background: scrolled ? 'rgba(10, 10, 15, 0.85)' : 'transparent',
-        backdropFilter: scrolled ? 'blur(20px)' : 'none',
+        background: scrolled ? 'var(--bg-secondary)' : 'transparent',
         borderBottom: scrolled ? '1px solid var(--border-primary)' : 'none',
         zIndex: 1000,
-        transition: 'all var(--transition-base)',
+        transition: 'background var(--transition-base)',
       }}>
         <Logo />
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
-          <Link href="/login" className="btn btn-ghost" style={{ color: 'var(--text-secondary)', fontWeight: 600 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
+          <Link href="/login" style={{ color: 'var(--text-secondary)', fontWeight: 600, fontSize: 'var(--font-size-sm)' }}>
             Log In
           </Link>
-          <Link href="/signup" className="btn btn-primary" style={{ padding: '0.625rem 1.25rem' }}>
+          <Link href="/signup" className="btn btn-secondary" style={{ padding: '0.5rem 1rem', border: '1px solid var(--brand-primary)', color: 'var(--brand-primary)' }}>
             Get Started
           </Link>
         </div>
@@ -205,83 +158,106 @@ export default function LandingPage() {
       {/* Hero Section */}
       <section style={{
         minHeight: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
         alignItems: 'center',
-        justifyContent: 'center',
-        textAlign: 'center',
-        padding: '8rem 1.5rem 6rem',
-        position: 'relative',
-        overflow: 'hidden',
+        padding: '8rem 2rem 4rem',
+        maxWidth: 1200,
+        margin: '0 auto',
+        gap: '4rem',
       }}>
-        {/* Background orbs */}
-        <div className="floating-orb-1" style={{
-          position: 'absolute', top: '15%', left: '8%',
-          width: 'min(450px, 80vw)', height: 'min(450px, 80vw)',
-          background: 'radial-gradient(circle, rgba(108, 92, 231, 0.15) 0%, transparent 70%)',
-          borderRadius: '50%', filter: 'blur(70px)',
-          pointerEvents: 'none'
-        }} />
-        <div className="floating-orb-2" style={{
-          position: 'absolute', bottom: '15%', right: '8%',
-          width: 'min(400px, 70vw)', height: 'min(400px, 70vw)',
-          background: 'radial-gradient(circle, rgba(0, 206, 201, 0.12) 0%, transparent 70%)',
-          borderRadius: '50%', filter: 'blur(60px)',
-          pointerEvents: 'none'
-        }} />
-
-        <div style={{ maxWidth: 850, position: 'relative', zIndex: 1 }} className="animate-fade-in-up">
-          <div className="tag" style={{ marginBottom: '1.5rem', color: 'var(--brand-primary-light)', borderColor: 'rgba(108, 92, 231, 0.3)' }}>
-            <span style={{ fontSize: '1rem' }}>🇪🇹</span> Ethiopia&apos;s Premium Prep Platform
+        <div className="animate-fade-in-up" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <span style={{ fontStyle: 'normal', fontSize: '0.875rem' }}>🇪🇹</span>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--font-size-xs)', color: 'var(--brand-primary)', letterSpacing: '0.1em' }}>
+              ETHIOPIA&apos;S CURRICULUM ARCHIVE
+            </span>
           </div>
+          
           <h1 style={{
-            fontSize: 'clamp(2.5rem, 6.5vw, 4.5rem)',
-            fontWeight: 800,
+            fontSize: 'clamp(2.5rem, 5vw, 4.5rem)',
+            fontWeight: 500,
             lineHeight: 1.1,
-            marginBottom: '1.5rem',
-            letterSpacing: '-0.04em',
+            letterSpacing: '-0.02em',
             fontFamily: 'var(--font-heading)',
           }}>
-            Ace Your{' '}
-            <span className="animated-gradient-text">National Exams</span>
-            <br />
-            with Certified Tutors
+            Ace Your <span style={{ color: 'var(--brand-primary)', fontStyle: 'italic' }}>National Exams</span> with Certified Tutors
           </h1>
+
           <p style={{
-            fontSize: 'var(--font-size-lg)',
+            fontSize: 'var(--font-size-base)',
             color: 'var(--text-secondary)',
-            maxWidth: 620,
-            margin: '0 auto 2.75rem',
-            lineHeight: 1.75,
+            lineHeight: 1.7,
+            maxWidth: 540,
           }}>
-            Syllabus-aligned video lessons, customizable chapter tests, and live tracking designed to help Grades 9-12 students confidently master the EUEE.
+            Syllabus-aligned video lessons, custom examination simulator metrics, and live study schedules designed to help Grades 9–12 students master the national curriculum checkpoints.
           </p>
-          <div style={{ display: 'flex', gap: '1.25rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link href="/signup" className="btn btn-primary btn-lg" style={{ fontSize: '1.05rem', padding: '0.875rem 2rem', boxShadow: 'var(--shadow-glow)' }}>
-              Start Learning Free →
+
+          <div style={{ display: 'flex', gap: '1.25rem', flexWrap: 'wrap', marginTop: '1rem' }}>
+            <Link href="/signup" className="btn btn-primary" style={{ padding: '0.85rem 1.75rem' }}>
+              Start Learning Free
             </Link>
-            <Link href="#how-it-works" className="btn btn-secondary btn-lg" style={{ fontSize: '1.05rem', padding: '0.875rem 2rem' }}>
-              See How It Works
+            <Link href="#how-it-works" className="btn btn-secondary" style={{ padding: '0.85rem 1.75rem' }}>
+              Study Methodology
             </Link>
           </div>
         </div>
 
-        {/* Scroll Indicator */}
-        <div className="bounce-arrow" style={{
-          position: 'absolute',
-          bottom: '2.5rem',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: '0.5rem',
-          cursor: 'pointer',
-          color: 'var(--text-tertiary)',
-        }}>
-          <span style={{ fontSize: 'var(--font-size-xs)', fontWeight: 600, letterSpacing: '0.1em' }}>SCROLL</span>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <line x1="12" y1="5" x2="12" y2="19"></line>
-            <polyline points="19 12 12 19 5 12"></polyline>
-          </svg>
+        {/* Visual Hero Card - Asymmetric Editorial Sheet */}
+        <div className="animate-scale-in" style={{ position: 'relative' }}>
+          <div style={{
+            border: '1px solid var(--border-primary)',
+            background: 'var(--bg-secondary)',
+            padding: '2.5rem',
+            position: 'relative',
+            zIndex: 2,
+            boxShadow: '8px 8px 0px rgba(216, 168, 56, 0.15)',
+          }}>
+            {/* Header info */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--border-primary)', paddingBottom: '1rem', marginBottom: '1.5rem' }}>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: 'var(--text-tertiary)' }}>DOC: EUEE-STUDY-LOG</span>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: 'var(--brand-primary)' }}>STATUS: ACTIVE</span>
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+              <div>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>SCHEDULED PREPARATION</span>
+                <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: 'var(--font-size-xl)', fontWeight: 500, marginTop: '2px' }}>
+                  Mathematics (Grade 12)
+                </h3>
+              </div>
+
+              {/* Monospaced statistics box */}
+              <div style={{
+                background: 'rgba(255, 255, 255, 0.01)',
+                border: '1px dashed var(--border-primary)',
+                padding: '1.25rem',
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr',
+                gap: '1rem'
+              }}>
+                <div>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: 'var(--text-tertiary)' }}>LAST PRACTICE SCORE</div>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '1.5rem', color: 'var(--brand-primary)', fontWeight: 700 }}>88%</div>
+                </div>
+                <div>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: 'var(--text-tertiary)' }}>SAGE CONFIDENCE INDEX</div>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '1.5rem', color: 'var(--brand-secondary-light)', fontWeight: 700 }}>HIGH</div>
+                </div>
+              </div>
+
+              {/* Progress Line */}
+              <div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.7rem', fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)', marginBottom: '0.5rem' }}>
+                  <span>EUEE BLUEPRINT COMPLETION</span>
+                  <span>78%</span>
+                </div>
+                <div style={{ height: '3px', background: 'var(--border-primary)', width: '100%' }}>
+                  <div style={{ height: '100%', background: 'var(--gradient-brand)', width: '78%' }} />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -289,26 +265,23 @@ export default function LandingPage() {
       <div className="ticker-wrap">
         <div className="ticker">
           <div className="ticker-item">
-            <span>✨ TRUSTED BY 12,000+ STUDENTS</span>
-            <span>🎓 ADDIS ABABA SCHOOLS</span>
-            <span>📍 HAWASSA CAMPUSES</span>
-            <span>🚀 94.2% COLLEGE ENTRANCE PASS RATE</span>
+            <span style={{ fontFamily: 'var(--font-mono)' }}>[01] TRUSTED BY 12,000+ ENROLLED STUDENTS</span>
+            <span style={{ fontFamily: 'var(--font-mono)' }}>[02] ALIGNED WITH FEDERAL MINISTRY OF EDUCATION</span>
+            <span style={{ fontFamily: 'var(--font-mono)' }}>[03] 94.2% NATIONAL UNIVERSITY ENTRY RATIO</span>
           </div>
           <div className="ticker-item">
-            <span>✨ TRUSTED BY 12,000+ STUDENTS</span>
-            <span>🎓 ADDIS ABABA SCHOOLS</span>
-            <span>📍 HAWASSA CAMPUSES</span>
-            <span>🚀 94.2% COLLEGE ENTRANCE PASS RATE</span>
+            <span style={{ fontFamily: 'var(--font-mono)' }}>[01] TRUSTED BY 12,000+ ENROLLED STUDENTS</span>
+            <span style={{ fontFamily: 'var(--font-mono)' }}>[02] ALIGNED WITH FEDERAL MINISTRY OF EDUCATION</span>
+            <span style={{ fontFamily: 'var(--font-mono)' }}>[03] 94.2% NATIONAL UNIVERSITY ENTRY RATIO</span>
           </div>
         </div>
       </div>
 
-      {/* Stats */}
+      {/* Stats Section */}
       <section style={{
-        padding: '5rem 2rem',
+        padding: '6rem 2rem',
         background: 'var(--bg-secondary)',
         borderBottom: '1px solid var(--border-primary)',
-        position: 'relative'
       }}>
         <div style={{
           maxWidth: 1100,
@@ -316,15 +289,16 @@ export default function LandingPage() {
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
           gap: '3rem',
-          textAlign: 'center',
         }}>
           {stats.map((stat, i) => (
-            <div key={i} className="reveal visible" style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+            <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem', borderLeft: '1px solid var(--border-primary)', paddingLeft: '1.5rem' }}>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: 'var(--text-tertiary)' }}>{stat.code}</span>
               <div style={{
-                fontSize: 'clamp(2.5rem, 4vw, 3.5rem)',
-                fontWeight: 800,
-                color: 'var(--brand-primary-light)',
-                letterSpacing: '-0.02em',
+                fontSize: 'clamp(2.5rem, 4vw, 3rem)',
+                fontWeight: 600,
+                color: 'var(--brand-primary)',
+                fontFamily: 'var(--font-heading)',
+                fontStyle: 'italic',
                 lineHeight: 1
               }}>{stat.value}</div>
               <div style={{ color: 'var(--text-secondary)', fontSize: 'var(--font-size-sm)', fontWeight: 500 }}>{stat.label}</div>
@@ -334,39 +308,32 @@ export default function LandingPage() {
       </section>
 
       {/* How It Works Section */}
-      <section id="how-it-works" style={{ padding: '7.5rem 2rem', position: 'relative' }}>
+      <section id="how-it-works" style={{ padding: '8rem 2rem' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '5rem' }}>
-            <span className="tag" style={{ color: 'var(--brand-primary-light)', marginBottom: '1rem' }}>SIMPLE SYSTEM</span>
-            <h2 style={{ fontSize: 'var(--font-size-3xl)', fontWeight: 800, marginBottom: '1rem' }}>How It Works</h2>
-            <p style={{ color: 'var(--text-secondary)', maxWidth: 500, margin: '0 auto' }}>
-              StudyCom is built step-by-step to integrate students, parents, and professional tutors.
-            </p>
+          <div style={{ marginBottom: '5rem', borderBottom: '1px solid var(--border-primary)', paddingBottom: '2.5rem' }}>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--font-size-xs)', color: 'var(--brand-primary)', letterSpacing: '0.1em' }}>
+              PREPARATION CYCLE
+            </span>
+            <h2 style={{ fontSize: 'var(--font-size-3xl)', fontWeight: 500, fontFamily: 'var(--font-heading)', marginTop: '0.5rem' }}>
+              Academic Onboarding & Progress System
+            </h2>
           </div>
 
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-            gap: '2.5rem',
-            position: 'relative',
+            gap: '3rem',
           }}>
-            {/* Connecting lines on desktop */}
-            <div style={{
-              position: 'absolute',
-              top: '52px',
-              left: '10%',
-              right: '10%',
-              height: '2px',
-              background: 'linear-gradient(90deg, rgba(108, 92, 231, 0.4) 0%, rgba(0, 206, 201, 0.4) 100%)',
-              zIndex: 1,
-              display: 'none',
-            }} className="desktop-line" />
-
             {steps.map((step, i) => (
-              <div key={i} className="step-card reveal visible">
-                <div className="step-number-container">{step.number}</div>
-                <h4 style={{ fontSize: 'var(--font-size-lg)', fontWeight: 700, marginBottom: '0.75rem', marginTop: '1rem' }}>{step.title}</h4>
-                <p style={{ color: 'var(--text-secondary)', fontSize: 'var(--font-size-sm)', lineHeight: 1.6, maxWidth: 300 }}>
+              <div key={i} className="card" style={{ position: 'relative', overflow: 'hidden' }}>
+                <span className="serif-number">{step.number}</span>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: 'var(--brand-secondary-light)' }}>
+                  PHASE: {step.phase}
+                </span>
+                <h4 style={{ fontSize: 'var(--font-size-lg)', fontWeight: 600, marginBottom: '0.75rem', marginTop: '0.5rem', fontFamily: 'var(--font-heading)' }}>
+                  {step.title}
+                </h4>
+                <p style={{ color: 'var(--text-secondary)', fontSize: 'var(--font-size-sm)', lineHeight: 1.6 }}>
                   {step.description}
                 </p>
               </div>
@@ -375,35 +342,37 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Features */}
-      <section id="features" style={{ padding: '7.5rem 2rem', background: 'var(--bg-secondary)', borderTop: '1px solid var(--border-primary)', borderBottom: '1px solid var(--border-primary)' }}>
+      {/* Features Grid */}
+      <section id="features" style={{
+        padding: '8rem 2rem',
+        background: 'var(--bg-secondary)',
+        borderTop: '1px solid var(--border-primary)',
+        borderBottom: '1px solid var(--border-primary)'
+      }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '5rem' }}>
-            <span className="tag" style={{ color: 'var(--brand-primary-light)', marginBottom: '1rem' }}>ROBUST FEATURES</span>
-            <h2 style={{ fontSize: 'var(--font-size-3xl)', fontWeight: 800, marginBottom: '1rem' }}>Everything You Need to Succeed</h2>
-            <p style={{ color: 'var(--text-secondary)', maxWidth: 520, margin: '0 auto' }}>
-              Advanced academic infrastructure customized for secondary school students.
-            </p>
+          <div style={{ marginBottom: '5rem', borderBottom: '1px solid var(--border-primary)', paddingBottom: '2.5rem' }}>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--font-size-xs)', color: 'var(--brand-primary)', letterSpacing: '0.1em' }}>
+              FUNCTIONAL SPECIFICATIONS
+            </span>
+            <h2 style={{ fontSize: 'var(--font-size-3xl)', fontWeight: 500, fontFamily: 'var(--font-heading)', marginTop: '0.5rem' }}>
+              Everything You Need to Excel
+            </h2>
           </div>
 
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
-            gap: '1.75rem',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gap: '2.5rem',
           }}>
             {features.map((feature, i) => (
-              <div key={i} className="card reveal visible" style={{ cursor: 'default', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                <div style={{
-                  width: 50, height: 50,
-                  background: 'rgba(108, 92, 231, 0.1)',
-                  color: 'var(--brand-primary-light)',
-                  borderRadius: 'var(--radius-lg)',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                }}>
-                  {feature.icon}
-                </div>
-                <h4 style={{ fontSize: 'var(--font-size-lg)', fontWeight: 700, marginTop: '0.5rem' }}>{feature.title}</h4>
-                <p style={{ color: 'var(--text-secondary)', fontSize: 'var(--font-size-sm)', lineHeight: 1.65 }}>
+              <div key={i} className="card" style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: 'var(--brand-primary)' }}>
+                  [{feature.code}]
+                </span>
+                <h4 style={{ fontSize: 'var(--font-size-lg)', fontWeight: 600, fontFamily: 'var(--font-heading)' }}>
+                  {feature.title}
+                </h4>
+                <p style={{ color: 'var(--text-secondary)', fontSize: 'var(--font-size-sm)', lineHeight: 1.6 }}>
                   {feature.description}
                 </p>
               </div>
@@ -412,33 +381,42 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Subjects */}
-      <section style={{ padding: '7.5rem 2rem' }}>
+      {/* Curriculum Subjects */}
+      <section style={{ padding: '8rem 2rem' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '5rem' }}>
-            <span className="tag" style={{ color: 'var(--brand-primary-light)', marginBottom: '1rem' }}>CURRICULUM FOCUS</span>
-            <h2 style={{ fontSize: 'var(--font-size-3xl)', fontWeight: 800, marginBottom: '1rem' }}>Subjects We Cover</h2>
-            <p style={{ color: 'var(--text-secondary)', maxWidth: 500, margin: '0 auto' }}>
-              Full coverage of syllabus checkpoints with thousands of practice and review materials.
-            </p>
+          <div style={{ marginBottom: '5rem', borderBottom: '1px solid var(--border-primary)', paddingBottom: '2.5rem', textAlign: 'center' }}>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--font-size-xs)', color: 'var(--brand-primary)', letterSpacing: '0.1em' }}>
+              ACADEMIC CATEGORIES
+            </span>
+            <h2 style={{ fontSize: 'var(--font-size-3xl)', fontWeight: 500, fontFamily: 'var(--font-heading)', marginTop: '0.5rem' }}>
+              National Examination Coverage
+            </h2>
           </div>
 
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))',
-            gap: '1.25rem',
+            gap: '1.5rem',
             maxWidth: 1000,
             margin: '0 auto',
           }}>
             {subjects.map((subject, i) => (
               <div
                 key={i}
-                className="subject-card reveal visible"
-                style={{ '--glow-color': subject.color } as React.CSSProperties}
+                style={{
+                  border: '1px solid var(--border-primary)',
+                  background: 'var(--bg-secondary)',
+                  padding: '2rem 1.5rem',
+                  textAlign: 'center',
+                  boxShadow: '3px 3px 0px rgba(216, 168, 56, 0.05)',
+                  position: 'relative'
+                }}
               >
-                <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>{subject.icon}</div>
-                <div style={{ fontWeight: 700, fontSize: 'var(--font-size-base)' }}>{subject.name}</div>
-                <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-tertiary)', marginTop: '0.25rem' }}>Grades 9 - 12</div>
+                <div style={{ fontSize: '2.25rem', marginBottom: '0.75rem' }}>{subject.icon}</div>
+                <div style={{ fontWeight: 600, fontSize: 'var(--font-size-base)', fontFamily: 'var(--font-heading)' }}>{subject.name}</div>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', color: 'var(--text-tertiary)', marginTop: '0.5rem' }}>
+                  CLASS: {subject.code}
+                </div>
               </div>
             ))}
           </div>
@@ -446,56 +424,58 @@ export default function LandingPage() {
       </section>
 
       {/* Testimonials */}
-      <section style={{ padding: '7.5rem 2rem', background: 'var(--bg-secondary)', borderTop: '1px solid var(--border-primary)', borderBottom: '1px solid var(--border-primary)' }}>
+      <section style={{
+        padding: '8rem 2rem',
+        background: 'var(--bg-secondary)',
+        borderTop: '1px solid var(--border-primary)',
+        borderBottom: '1px solid var(--border-primary)'
+      }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '5rem' }}>
-            <span className="tag" style={{ color: 'var(--brand-primary-light)', marginBottom: '1rem' }}>STUDENT REVIEWS</span>
-            <h2 style={{ fontSize: 'var(--font-size-3xl)', fontWeight: 800, marginBottom: '1rem' }}>Loved by Ethiopian Students & Parents</h2>
-            <p style={{ color: 'var(--text-secondary)', maxWidth: 500, margin: '0 auto' }}>
-              Read testimonies from users who reached their academic goals with StudyCom.
-            </p>
+          <div style={{ marginBottom: '5rem', borderBottom: '1px solid var(--border-primary)', paddingBottom: '2.5rem' }}>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--font-size-xs)', color: 'var(--brand-primary)', letterSpacing: '0.1em' }}>
+              USER FEEDBACK
+            </span>
+            <h2 style={{ fontSize: 'var(--font-size-3xl)', fontWeight: 500, fontFamily: 'var(--font-heading)', marginTop: '0.5rem' }}>
+              Scholarly Verification & Reviews
+            </h2>
           </div>
 
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-            gap: '2rem',
+            gap: '2.5rem',
           }}>
             {testimonials.map((t, i) => (
-              <div key={i} className="testimonial-card reveal visible">
-                <span className="quote-icon">“</span>
-                <div style={{ display: 'flex', gap: '2px', color: '#ffb900', marginBottom: '1.25rem' }}>
-                  {Array.from({ length: t.rating }).map((_, idx) => (
-                    <span key={idx} style={{ fontSize: '1.25rem' }}>★</span>
-                  ))}
-                </div>
+              <div key={i} className="card" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                 <p style={{
                   color: 'var(--text-primary)',
                   fontSize: 'var(--font-size-sm)',
                   lineHeight: 1.7,
-                  marginBottom: '1.5rem',
                   fontStyle: 'italic',
                 }}>
                   &quot;{t.quote}&quot;
                 </p>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginTop: 'auto', borderTop: '1px solid var(--border-secondary)', paddingTop: '1rem' }}>
                   <div style={{
-                    width: 42,
-                    height: 42,
-                    borderRadius: 'var(--radius-full)',
-                    background: 'var(--gradient-brand)',
+                    width: 38,
+                    height: 38,
+                    background: 'var(--bg-primary)',
+                    border: '1px solid var(--brand-primary)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     fontWeight: 700,
                     fontSize: 'var(--font-size-xs)',
-                    color: 'white',
+                    color: 'var(--brand-primary)',
+                    fontFamily: 'var(--font-mono)'
                   }}>
                     {t.avatar}
                   </div>
                   <div>
-                    <h5 style={{ fontSize: 'var(--font-size-sm)', fontWeight: 700, margin: 0 }}>{t.name}</h5>
-                    <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-secondary)' }}>{t.role}</span>
+                    <h5 style={{ fontSize: 'var(--font-size-sm)', fontWeight: 600, margin: 0 }}>{t.name}</h5>
+                    <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-secondary)', fontFamily: 'var(--font-mono)' }}>
+                      {t.role}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -504,28 +484,20 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section style={{
-        padding: '8rem 2rem',
-        textAlign: 'center',
-        position: 'relative',
-        overflow: 'hidden',
-      }}>
-        <div style={{
-          position: 'absolute', inset: 0,
-          background: 'radial-gradient(ellipse at center, rgba(108, 92, 231, 0.15) 0%, transparent 60%)',
-          pointerEvents: 'none'
-        }} />
-        <div style={{ position: 'relative', zIndex: 1, maxWidth: 650, margin: '0 auto' }}>
-          <h2 style={{ fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: 800, marginBottom: '1.25rem', letterSpacing: '-0.03em' }}>
-            Ready to Ace Your Entrance Exams?
+      {/* CTA Section */}
+      <section style={{ padding: '8rem 2rem', textAlign: 'center' }}>
+        <div style={{ maxWidth: 650, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+          <h2 style={{ fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: 500, fontFamily: 'var(--font-heading)' }}>
+            Start Your Academic Preparation Today
           </h2>
-          <p style={{ color: 'var(--text-secondary)', marginBottom: '2.5rem', fontSize: 'var(--font-size-base)', lineHeight: 1.65 }}>
-            Join thousands of Grade 9-12 students who are already using StudyCom to prepare for their academic future.
+          <p style={{ color: 'var(--text-secondary)', fontSize: 'var(--font-size-base)', lineHeight: 1.7 }}>
+            Unlock syllabus video checkpoints, customize simulation entrance tests, and review notes created by verified tutors under national guidelines.
           </p>
-          <Link href="/signup" className="btn btn-primary btn-lg" style={{ fontSize: '1.05rem', padding: '0.875rem 2.25rem', boxShadow: 'var(--shadow-glow)' }}>
-            Create Your Free Account →
-          </Link>
+          <div style={{ marginTop: '1rem' }}>
+            <Link href="/signup" className="btn btn-primary" style={{ padding: '0.875rem 2rem' }}>
+              Create Your Free Account
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -533,7 +505,7 @@ export default function LandingPage() {
       <footer style={{
         padding: '5rem 2rem 3rem',
         borderTop: '1px solid var(--border-primary)',
-        background: '#0c0c12'
+        background: '#07080d'
       }}>
         <div style={{
           maxWidth: 1200,
@@ -541,10 +513,8 @@ export default function LandingPage() {
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
           gap: '3rem',
-          textAlign: 'left',
           marginBottom: '4rem'
         }}>
-          {/* Brand block */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', gridColumn: 'span 2' }}>
             <Logo />
             <p style={{ color: 'var(--text-secondary)', fontSize: 'var(--font-size-sm)', lineHeight: 1.6, maxWidth: 280 }}>
@@ -552,32 +522,29 @@ export default function LandingPage() {
             </p>
           </div>
 
-          {/* Links block 1 */}
           <div>
-            <h5 style={{ fontSize: 'var(--font-size-sm)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '1.5rem', color: 'var(--text-primary)' }}>Product</h5>
+            <h5 style={{ fontSize: 'var(--font-size-sm)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '1.5rem', color: 'var(--text-primary)', fontFamily: 'var(--font-mono)' }}>Product</h5>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-              <li><Link href="#features" style={{ color: 'var(--text-secondary)', fontSize: 'var(--font-size-sm)', textDecoration: 'none' }}>Features</Link></li>
-              <li><Link href="#how-it-works" style={{ color: 'var(--text-secondary)', fontSize: 'var(--font-size-sm)', textDecoration: 'none' }}>How it Works</Link></li>
-              <li><Link href="/login" style={{ color: 'var(--text-secondary)', fontSize: 'var(--font-size-sm)', textDecoration: 'none' }}>Tutor Network</Link></li>
+              <li><Link href="#features" style={{ color: 'var(--text-secondary)', fontSize: 'var(--font-size-sm)' }}>Features</Link></li>
+              <li><Link href="#how-it-works" style={{ color: 'var(--text-secondary)', fontSize: 'var(--font-size-sm)' }}>Methodology</Link></li>
+              <li><Link href="/login" style={{ color: 'var(--text-secondary)', fontSize: 'var(--font-size-sm)' }}>Tutors Network</Link></li>
             </ul>
           </div>
 
-          {/* Links block 2 */}
           <div>
-            <h5 style={{ fontSize: 'var(--font-size-sm)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '1.5rem', color: 'var(--text-primary)' }}>Resources</h5>
+            <h5 style={{ fontSize: 'var(--font-size-sm)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '1.5rem', color: 'var(--text-primary)', fontFamily: 'var(--font-mono)' }}>Resources</h5>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-              <li><Link href="/signup" style={{ color: 'var(--text-secondary)', fontSize: 'var(--font-size-sm)', textDecoration: 'none' }}>Curriculum Notes</Link></li>
-              <li><Link href="/signup" style={{ color: 'var(--text-secondary)', fontSize: 'var(--font-size-sm)', textDecoration: 'none' }}>EUEE Past Exams</Link></li>
-              <li><Link href="/signup" style={{ color: 'var(--text-secondary)', fontSize: 'var(--font-size-sm)', textDecoration: 'none' }}>Study Calendar</Link></li>
+              <li><Link href="/signup" style={{ color: 'var(--text-secondary)', fontSize: 'var(--font-size-sm)' }}>Curriculum Notes</Link></li>
+              <li><Link href="/signup" style={{ color: 'var(--text-secondary)', fontSize: 'var(--font-size-sm)' }}>EUEE Simulation</Link></li>
+              <li><Link href="/signup" style={{ color: 'var(--text-secondary)', fontSize: 'var(--font-size-sm)' }}>Study Calendar</Link></li>
             </ul>
           </div>
 
-          {/* Links block 3 */}
           <div>
-            <h5 style={{ fontSize: 'var(--font-size-sm)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '1.5rem', color: 'var(--text-primary)' }}>Company</h5>
+            <h5 style={{ fontSize: 'var(--font-size-sm)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '1.5rem', color: 'var(--text-primary)', fontFamily: 'var(--font-mono)' }}>Guidelines</h5>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-              <li><span style={{ color: 'var(--text-secondary)', fontSize: 'var(--font-size-sm)' }}>About Us</span></li>
-              <li><span style={{ color: 'var(--text-secondary)', fontSize: 'var(--font-size-sm)' }}>Contact Support</span></li>
+              <li><span style={{ color: 'var(--text-secondary)', fontSize: 'var(--font-size-sm)' }}>Ministry Syllabus</span></li>
+              <li><span style={{ color: 'var(--text-secondary)', fontSize: 'var(--font-size-sm)' }}>Privacy Protocol</span></li>
               <li><span style={{ color: 'var(--text-secondary)', fontSize: 'var(--font-size-sm)' }}>Terms of Service</span></li>
             </ul>
           </div>
@@ -594,11 +561,13 @@ export default function LandingPage() {
           alignItems: 'center',
           gap: '1rem'
         }}>
-          <p style={{ color: 'var(--text-tertiary)', fontSize: 'var(--font-size-xs)', margin: 0 }}>
-            © 2026 StudyCom. All rights reserved. Prepared according to the Federal Ministry of Education curriculum standards.
+          <p style={{ color: 'var(--text-tertiary)', fontSize: 'var(--font-size-xs)', margin: 0, fontFamily: 'var(--font-mono)' }}>
+            © 2026 StudyCom. All rights reserved. Prepared under curriculum standards.
           </p>
           <div style={{ display: 'flex', gap: '1rem' }}>
-            <span style={{ color: 'var(--text-tertiary)', fontSize: 'var(--font-size-xs)' }}>Built with ❤️ for Ethiopia</span>
+            <span style={{ color: 'var(--text-tertiary)', fontSize: 'var(--font-size-xs)', fontFamily: 'var(--font-mono)' }}>
+              BUILT FOR ETHIOPIAN EXCELLENCE
+            </span>
           </div>
         </div>
       </footer>
