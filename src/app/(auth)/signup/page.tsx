@@ -96,7 +96,13 @@ export default function SignupPage() {
     }
 
     if (data.user) {
-      // Create profile
+      // If email confirmation is enabled, session will be null and client-side writes to profiles will fail under RLS
+      if (!data.session) {
+        router.push('/login?message=check-email')
+        return
+      }
+
+      // Create profile (user is immediately authenticated since confirmation is off)
       const { error: profileError } = await supabase.from('profiles').insert({
         id: data.user.id,
         role,
@@ -106,6 +112,10 @@ export default function SignupPage() {
       })
 
       if (profileError) {
+        if (profileError.code === '42501') {
+          router.push('/login?message=check-email')
+          return
+        }
         setError(profileError.message)
         setLoading(false)
         return

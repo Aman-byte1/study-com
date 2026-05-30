@@ -22,24 +22,25 @@ export async function GET(request: Request) {
         if (profile && profile.role) {
           return NextResponse.redirect(`${origin}/${profile.role}`)
         } else {
-          // If profile does not exist yet or has no role set (e.g. first-time Google sign up),
-          // upsert a default student profile so they can enter the application
-          const fullName = user.user_metadata?.full_name || user.email?.split('@')[0] || 'Student'
+          // If profile does not exist yet or has no role set,
+          // upsert a default profile using signup metadata (Google metadata or Email metadata)
+          const fullName = user.user_metadata?.full_name || user.email?.split('@')[0] || 'User'
+          const userRole = user.user_metadata?.role || 'student'
           
           const { error: profileError } = await supabase.from('profiles').upsert({
             id: user.id,
-            role: 'student',
+            role: userRole,
             full_name: fullName,
             phone: null,
-            grade_level: 9,
+            grade_level: userRole === 'student' ? 9 : null,
           })
 
           if (profileError) {
-            console.error('Error creating profile for Google sign-in:', profileError)
+            console.error('Error creating profile during auth callback:', profileError)
             return NextResponse.redirect(`${origin}/login?error=profile-creation-failed`)
           }
 
-          return NextResponse.redirect(`${origin}/student`)
+          return NextResponse.redirect(`${origin}/${userRole}`)
         }
       }
     } else {

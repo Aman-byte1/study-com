@@ -1,8 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, Suspense } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 
 function MobileLogo() {
@@ -34,12 +34,16 @@ function MobileLogo() {
   )
 }
 
-export default function LoginPage() {
+function LoginForm() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const router = useRouter()
+  
+  const searchParams = useSearchParams()
+  const message = searchParams.get('message')
+  const urlError = searchParams.get('error')
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -110,6 +114,36 @@ export default function LoginPage() {
             lineHeight: 1.5,
           }}>
             {error}
+          </div>
+        )}
+
+        {urlError === 'profile-not-found' && (
+          <div style={{
+            padding: '0.75rem 1rem',
+            background: 'rgba(255, 107, 107, 0.1)',
+            border: '1px solid rgba(255, 107, 107, 0.3)',
+            borderRadius: 'var(--radius-lg)',
+            color: '#ff6b6b',
+            fontSize: 'var(--font-size-sm)',
+            marginBottom: '1.5rem',
+            lineHeight: 1.5,
+          }}>
+            Account authenticated, but no profile was found. Please sign up to register your account role.
+          </div>
+        )}
+
+        {message === 'check-email' && (
+          <div style={{
+            padding: '0.75rem 1rem',
+            background: 'rgba(0, 184, 148, 0.1)',
+            border: '1px solid rgba(0, 184, 148, 0.3)',
+            borderRadius: 'var(--radius-lg)',
+            color: '#00b894',
+            fontSize: 'var(--font-size-sm)',
+            marginBottom: '1.5rem',
+            lineHeight: 1.5,
+          }}>
+            Registration successful! Please check your email inbox and click the validation link to verify and activate your account.
           </div>
         )}
 
@@ -199,5 +233,13 @@ export default function LoginPage() {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div className="loading-center"><div className="spinner" /></div>}>
+      <LoginForm />
+    </Suspense>
   )
 }
