@@ -115,8 +115,20 @@ export default function SignupPage() {
     }
   }
 
-  const handleGoogleSignup = () => {
-    setError('Google registration is not configured in this sandbox environment. Please register using email.')
+  const handleGoogleSignup = async () => {
+    setError('')
+    setLoading(true)
+    const supabase = createClient()
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+      },
+    })
+    if (error) {
+      setError(error.message)
+      setLoading(false)
+    }
   }
 
   const strength = getPasswordStrength(password)

@@ -69,8 +69,20 @@ export default function LoginPage() {
     router.push(`/${role}`)
   }
 
-  const handleGoogleLogin = () => {
-    setError('Google login is not configured in this sandbox environment. Please use email credentials.')
+  const handleGoogleLogin = async () => {
+    setError('')
+    setLoading(true)
+    const supabase = createClient()
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+      },
+    })
+    if (error) {
+      setError(error.message)
+      setLoading(false)
+    }
   }
 
   return (
