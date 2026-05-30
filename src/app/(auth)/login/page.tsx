@@ -117,7 +117,7 @@ function LoginForm() {
           </div>
         )}
 
-        {urlError === 'profile-not-found' && (
+        {!error && urlError === 'profile-not-found' && (
           <div style={{
             padding: '0.75rem 1rem',
             background: 'rgba(255, 107, 107, 0.1)',
@@ -132,7 +132,7 @@ function LoginForm() {
           </div>
         )}
 
-        {message === 'check-email' && (
+        {!error && message === 'check-email' && (
           <div style={{
             padding: '0.75rem 1rem',
             background: 'rgba(0, 184, 148, 0.1)',
