@@ -1,7 +1,22 @@
 'use client'
 
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef, useCallback } from 'react'
+import { useCountUp as useCountUpHook } from '@/lib/animation'
+
+// ============================================
+// CUSTOM HERO SVG DECORATIVE ICON
+// ============================================
+function HeroDecoIcon({ size = 18 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter">
+      <rect x="3" y="3" width="7" height="9" />
+      <rect x="14" y="3" width="7" height="5" />
+      <rect x="14" y="12" width="7" height="9" />
+      <rect x="3" y="16" width="7" height="5" />
+    </svg>
+  )
+}
 
 function Logo() {
   return (
@@ -22,6 +37,65 @@ function Logo() {
       }}>
         Study<span style={{ color: 'var(--brand-primary)', fontStyle: 'italic' }}>Com</span>
       </span>
+    </div>
+  )
+}
+
+// ============================================
+// SCROLL REVEAL HOOK
+// ============================================
+function useReveal<T extends HTMLElement = HTMLDivElement>() {
+  const ref = useRef<T | null>(null)
+  const [visible, setVisible] = useState(false)
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setVisible(true); observer.unobserve(el) } },
+      { threshold: 0.15 }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+
+  return [ref, visible] as const
+}
+
+function RevealSection({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+  const [ref, visible] = useReveal<HTMLDivElement>()
+  return (
+    <div
+      ref={ref}
+      className={`reveal ${visible ? 'visible' : ''}`}
+      style={{ transitionDelay: `${delay}ms` }}
+    >
+      {children}
+    </div>
+  )
+}
+
+// ============================================
+// ANIMATED COUNTER
+// ============================================
+function AnimatedCounter({ target, suffix = '', label, code }: { target: number; suffix?: string; label: string; code: string }) {
+  const [ref, visible] = useReveal<HTMLDivElement>()
+  const count = useCountUpHook(target, 2000, visible)
+
+  return (
+    <div ref={ref} style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem', borderLeft: '1px solid var(--border-primary)', paddingLeft: '1.5rem' }}>
+      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: 'var(--text-tertiary)' }}>{code}</span>
+      <div style={{
+        fontSize: 'clamp(2.5rem, 4vw, 3rem)',
+        fontWeight: 600,
+        color: 'var(--brand-primary)',
+        fontFamily: 'var(--font-heading)',
+        fontStyle: 'italic',
+        lineHeight: 1
+      }}>
+        {count}{suffix}
+      </div>
+      <div style={{ color: 'var(--text-secondary)', fontSize: 'var(--font-size-sm)', fontWeight: 500 }}>{label}</div>
     </div>
   )
 }

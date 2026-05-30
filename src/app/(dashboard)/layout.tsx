@@ -215,6 +215,8 @@ const navItems = {
 }
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+  // Grain overlay for texture depth
+  const showGrain = true
   const [profile, setProfile] = useState<Profile | null>(null)
   const [notifications, setNotifications] = useState<Notification[]>([])
   const [showNotifs, setShowNotifs] = useState(false)
@@ -307,6 +309,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   return (
     <div>
+      {/* Grain overlay */}
+      <div className="grain-overlay" />
+
       {/* Sidebar */}
       <aside className="sidebar dots-pattern">
         <div className="sidebar-logo">

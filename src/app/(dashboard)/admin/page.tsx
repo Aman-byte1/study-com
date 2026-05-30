@@ -1,8 +1,101 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
+import { useScrollReveal, useCountUp } from '@/lib/animation'
+
+// ============================================
+// CUSTOM ADMIN SVG ICONS
+// ============================================
+function StudentsIcon({ size = 24 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="var(--brand-primary)" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter">
+      <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+      <path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5" />
+    </svg>
+  )
+}
+
+function TutorsIcon({ size = 24 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="var(--brand-primary)" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter">
+      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+      <circle cx="9" cy="7" r="4" />
+      <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+    </svg>
+  )
+}
+
+function ParentsIcon({ size = 24 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="var(--brand-primary)" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter">
+      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+      <circle cx="12" cy="7" r="4" />
+    </svg>
+  )
+}
+
+function CoursesIcon({ size = 24 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="var(--brand-primary)" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter">
+      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+      <line x1="9" y1="6" x2="16" y2="6" />
+      <line x1="9" y1="10" x2="16" y2="10" />
+    </svg>
+  )
+}
+
+function LessonsIcon({ size = 24 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="var(--brand-primary)" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter">
+      <rect x="2" y="3" width="20" height="14" />
+      <path d="M10 8l5 3-5 3V8z" fill="var(--brand-primary)" />
+    </svg>
+  )
+}
+
+function QuizzesIcon({ size = 24 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="var(--brand-primary)" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter">
+      <circle cx="12" cy="12" r="10" />
+      <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+      <line x1="12" y1="17" x2="12.01" y2="17" strokeWidth="2.5" />
+    </svg>
+  )
+}
+
+function UsersListIcon({ size = 16 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter">
+      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+      <circle cx="9" cy="7" r="4" />
+    </svg>
+  )
+}
+
+// ============================================
+// ANIMATED STAT CARD
+// ============================================
+function AnimatedStatCard({ icon, label, value, code, delay }: { icon: React.ReactNode; label: string; value: number; code: string; delay: number }) {
+  const [ref, visible] = useScrollReveal<HTMLDivElement>()
+  const count = useCountUp(value, 2000, visible)
+
+  return (
+    <div ref={ref} className={`stat-card animate-fade-in-up stagger-${delay} ${visible ? 'visible' : ''}`} style={{ opacity: visible ? 1 : 0 }}>
+      <div className="stat-icon" style={{ background: 'rgba(216, 168, 56, 0.08)', borderRadius: 0 }}>
+        {icon}
+      </div>
+      <div className="stat-info">
+        <div className="stat-label">{label}</div>
+        <div className="stat-value" style={{ fontFamily: 'var(--font-mono)', fontSize: '2rem' }}>{count}</div>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', color: 'var(--text-tertiary)' }}>{code}</span>
+      </div>
+    </div>
+  )
+}
 
 interface PlatformStats {
   totalStudents: number
@@ -64,69 +157,37 @@ export default function AdminDashboard() {
     <div className="animate-fade-in">
       {/* Stats */}
       <div className="stats-grid">
-        <div className="stat-card animate-fade-in-up stagger-1">
-          <div className="stat-icon stat-icon-purple">🎓</div>
-          <div className="stat-info">
-            <div className="stat-label">Students</div>
-            <div className="stat-value">{stats.totalStudents}</div>
-          </div>
-        </div>
-        <div className="stat-card animate-fade-in-up stagger-2">
-          <div className="stat-icon stat-icon-teal">👩‍🏫</div>
-          <div className="stat-info">
-            <div className="stat-label">Tutors</div>
-            <div className="stat-value">{stats.totalTutors}</div>
-          </div>
-        </div>
-        <div className="stat-card animate-fade-in-up stagger-3">
-          <div className="stat-icon stat-icon-pink">👨‍👩‍👧</div>
-          <div className="stat-info">
-            <div className="stat-label">Parents</div>
-            <div className="stat-value">{stats.totalParents}</div>
-          </div>
-        </div>
-        <div className="stat-card animate-fade-in-up stagger-4">
-          <div className="stat-icon stat-icon-yellow">📚</div>
-          <div className="stat-info">
-            <div className="stat-label">Courses</div>
-            <div className="stat-value">{stats.totalCourses}</div>
-          </div>
-        </div>
-        <div className="stat-card animate-fade-in-up stagger-5">
-          <div className="stat-icon stat-icon-green">🎥</div>
-          <div className="stat-info">
-            <div className="stat-label">Lessons</div>
-            <div className="stat-value">{stats.totalLessons}</div>
-          </div>
-        </div>
-        <div className="stat-card animate-fade-in-up stagger-6">
-          <div className="stat-icon stat-icon-blue">❓</div>
-          <div className="stat-info">
-            <div className="stat-label">Quizzes</div>
-            <div className="stat-value">{stats.totalQuizzes}</div>
-          </div>
-        </div>
+        <AnimatedStatCard icon={<StudentsIcon />} label="Students" value={stats.totalStudents} code="SYS-001" delay={1} />
+        <AnimatedStatCard icon={<TutorsIcon />} label="Tutors" value={stats.totalTutors} code="SYS-002" delay={2} />
+        <AnimatedStatCard icon={<ParentsIcon />} label="Parents" value={stats.totalParents} code="SYS-003" delay={3} />
+        <AnimatedStatCard icon={<CoursesIcon />} label="Courses" value={stats.totalCourses} code="SYS-004" delay={4} />
+        <AnimatedStatCard icon={<LessonsIcon />} label="Lessons" value={stats.totalLessons} code="SYS-005" delay={5} />
+        <AnimatedStatCard icon={<QuizzesIcon />} label="Quizzes" value={stats.totalQuizzes} code="SYS-006" delay={6} />
       </div>
 
       <div className="content-grid">
         {/* Quick Actions */}
         <div className="card-static animate-fade-in-up">
-          <h3 className="card-title" style={{ marginBottom: '1rem' }}>⚡ Admin Actions</h3>
+          <h3 className="card-title" style={{ marginBottom: '1rem', fontFamily: 'var(--font-heading)', fontSize: 'var(--font-size-lg)', fontWeight: 500 }}>
+            Admin Actions
+          </h3>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-            <Link href="/admin/users" className="btn btn-secondary" style={{ justifyContent: 'flex-start' }}>
-              👥 Manage Users
+            <Link href="/admin/users" className="btn btn-secondary" style={{ justifyContent: 'flex-start', gap: '0.75rem', fontFamily: 'var(--font-mono)', fontSize: '0.75rem' }}>
+              <UsersListIcon /> MANAGE USERS
             </Link>
-            <Link href="/admin/courses" className="btn btn-secondary" style={{ justifyContent: 'flex-start' }}>
-              📚 Manage Courses
+            <Link href="/admin/courses" className="btn btn-secondary" style={{ justifyContent: 'flex-start', gap: '0.75rem', fontFamily: 'var(--font-mono)', fontSize: '0.75rem' }}>
+              <CoursesIcon size={16} /> MANAGE COURSES
             </Link>
-            <Link href="/admin/content" className="btn btn-secondary" style={{ justifyContent: 'flex-start' }}>
-              📁 Upload Content
+            <Link href="/admin/content" className="btn btn-secondary" style={{ justifyContent: 'flex-start', gap: '0.75rem', fontFamily: 'var(--font-mono)', fontSize: '0.75rem' }}>
+              <LessonsIcon size={16} /> UPLOAD CONTENT
             </Link>
-            <Link href="/admin/schedules" className="btn btn-secondary" style={{ justifyContent: 'flex-start' }}>
-              📅 View Schedules
+            <Link href="/admin/schedules" className="btn btn-secondary" style={{ justifyContent: 'flex-start', gap: '0.75rem', fontFamily: 'var(--font-mono)', fontSize: '0.75rem' }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="3" y="4" width="18" height="18" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
+              VIEW SCHEDULES
             </Link>
-            <Link href="/admin/analytics" className="btn btn-secondary" style={{ justifyContent: 'flex-start' }}>
-              📊 Analytics
+            <Link href="/admin/analytics" className="btn btn-secondary" style={{ justifyContent: 'flex-start', gap: '0.75rem', fontFamily: 'var(--font-mono)', fontSize: '0.75rem' }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M3 3v18h18" /><path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3" /></svg>
+              ANALYTICS
             </Link>
           </div>
         </div>
@@ -134,8 +195,10 @@ export default function AdminDashboard() {
         {/* Recent Users */}
         <div className="card-static animate-fade-in-up">
           <div className="card-header">
-            <h3 className="card-title">👥 Recent Users</h3>
-            <Link href="/admin/users" className="btn btn-ghost btn-sm">View All</Link>
+            <h3 className="card-title" style={{ fontFamily: 'var(--font-heading)', fontSize: 'var(--font-size-lg)', fontWeight: 500, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <UsersListIcon size={18} /> Recent Users
+            </h3>
+            <Link href="/admin/users" className="btn btn-ghost btn-sm" style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem' }}>VIEW ALL</Link>
           </div>
           <table className="data-table">
             <thead>
@@ -154,11 +217,11 @@ export default function AdminDashboard() {
                       u.role === 'student' ? 'badge-primary' :
                       u.role === 'tutor' ? 'badge-success' :
                       u.role === 'parent' ? 'badge-info' : 'badge-warning'
-                    }`}>
+                    }`} style={{ borderRadius: 0, fontFamily: 'var(--font-mono)', fontSize: '0.6rem' }}>
                       {u.role}
                     </span>
                   </td>
-                  <td style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-secondary)' }}>
+                  <td style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-secondary)', fontFamily: 'var(--font-mono)' }}>
                     {new Date(u.created_at).toLocaleDateString()}
                   </td>
                 </tr>

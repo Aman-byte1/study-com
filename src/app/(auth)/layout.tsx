@@ -25,11 +25,59 @@ function Logo() {
   )
 }
 
+// ============================================
+// ANIMATED CHECKMARK SVG
+// ============================================
+function AnimatedCheckmark() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="0.5" y="0.5" width="19" height="19" stroke="var(--brand-primary)" strokeWidth="1" />
+      <path d="M5 10L8.5 13.5L15 7" stroke="var(--brand-primary)" strokeWidth="1.5" strokeLinecap="square" fill="none" className="animate-draw-line" strokeDasharray="20" strokeDashoffset="0" />
+    </svg>
+  )
+}
+
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="auth-container">
+    <div className="auth-container" style={{ overflow: 'hidden' }}>
+      {/* Floating decorative elements */}
+      <div style={{
+        position: 'fixed', pointerEvents: 'none', zIndex: 0,
+        top: '15%', left: '5%', width: '12px', height: '12px',
+        border: '1px solid var(--brand-primary)', opacity: 0.08,
+        transform: 'rotate(45deg)',
+        animation: 'floatDrift 8s ease-in-out infinite',
+      }} />
+      <div style={{
+        position: 'fixed', pointerEvents: 'none', zIndex: 0,
+        bottom: '20%', right: '8%', width: '8px', height: '8px',
+        background: 'var(--brand-primary)', opacity: 0.05,
+        borderRadius: '50%',
+        animation: 'floatDrift 10s ease-in-out infinite 2s',
+      }} />
+      <div style={{
+        position: 'fixed', pointerEvents: 'none', zIndex: 0,
+        top: '40%', right: '3%', width: '20px', height: '1px',
+        background: 'var(--brand-primary)', opacity: 0.06,
+        animation: 'floatDrift 12s ease-in-out infinite 4s',
+      }} />
+
       {/* Sidebar Branding (Desktop only) */}
       <aside className="auth-sidebar grid-pattern">
+        {/* Decorative gradient orbs */}
+        <div style={{
+          position: 'absolute', top: '-20%', right: '-20%',
+          width: '500px', height: '500px',
+          background: 'radial-gradient(circle, rgba(216, 168, 56, 0.04) 0%, transparent 70%)',
+          borderRadius: '50%', pointerEvents: 'none',
+        }} />
+        <div style={{
+          position: 'absolute', bottom: '-10%', left: '-10%',
+          width: '400px', height: '400px',
+          background: 'radial-gradient(circle, rgba(61, 90, 80, 0.04) 0%, transparent 70%)',
+          borderRadius: '50%', pointerEvents: 'none',
+        }} />
+
         {/* Top Header */}
         <div style={{ position: 'relative', zIndex: 10 }}>
           <Link href="/" style={{ textDecoration: 'none' }}>
@@ -71,16 +119,15 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
             ].map((feature, idx) => (
               <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                 <div style={{
-                  width: '20px',
-                  height: '20px',
-                  border: '1px solid var(--brand-primary)',
+                  width: '22px',
+                  height: '22px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  color: 'var(--brand-primary)',
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '0.65rem'
-                }}>✓</div>
+                  flexShrink: 0,
+                }}>
+                  <AnimatedCheckmark />
+                </div>
                 <span style={{ fontSize: 'var(--font-size-sm)', fontWeight: 500, color: 'var(--text-secondary)' }}>{feature}</span>
               </div>
             ))}

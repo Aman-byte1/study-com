@@ -60,6 +60,29 @@ function MessagesIcon({ size = 20 }) {
   )
 }
 
+function ScheduleSvgIcon({ size = 16 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="var(--brand-primary)" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter">
+      <rect x="3" y="4" width="18" height="18" />
+      <line x1="16" y1="2" x2="16" y2="6" />
+      <line x1="8" y1="2" x2="8" y2="6" />
+      <line x1="3" y1="10" x2="21" y2="10" />
+      <circle cx="12" cy="16" r="1.5" fill="var(--brand-primary)" stroke="none" />
+    </svg>
+  )
+}
+
+function AssignmentSvgIcon({ size = 16 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="var(--brand-primary)" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter">
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+      <polyline points="14 2 14 8 20 8" />
+      <line x1="16" y1="13" x2="8" y2="13" />
+      <line x1="16" y1="17" x2="8" y2="17" />
+    </svg>
+  )
+}
+
 const getCourseIcon = (title: string, size = 32) => {
   const t = title.toLowerCase()
   if (t.includes('math')) {
@@ -268,8 +291,8 @@ export default function StudentDashboard() {
         {/* Today's Schedule Card */}
         <div className="card-static" style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
           <div className="card-header" style={{ borderBottom: '1px solid var(--border-primary)', paddingBottom: '0.75rem' }}>
-            <h3 className="card-title" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: 'var(--font-size-base)', fontWeight: 600, fontFamily: 'var(--font-heading)' }}>
-              📅 Today&apos;s Schedule
+          <h3 className="card-title" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: 'var(--font-size-base)', fontWeight: 600, fontFamily: 'var(--font-heading)' }}>
+              <ScheduleSvgIcon size={16} /> Today's Schedule
             </h3>
             <Link href="/student/schedule" style={{ color: 'var(--brand-primary)', fontFamily: 'var(--font-mono)', fontSize: '0.7rem' }}>
               VIEW CALENDAR
@@ -314,7 +337,7 @@ export default function StudentDashboard() {
         <div className="card-static" style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
           <div className="card-header" style={{ borderBottom: '1px solid var(--border-primary)', paddingBottom: '0.75rem' }}>
             <h3 className="card-title" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: 'var(--font-size-base)', fontWeight: 600, fontFamily: 'var(--font-heading)' }}>
-              📝 Pending Assignments
+              <AssignmentSvgIcon size={16} /> Pending Assignments
             </h3>
             <Link href="/student/assignments" style={{ color: 'var(--brand-primary)', fontFamily: 'var(--font-mono)', fontSize: '0.7rem' }}>
               VIEW ALL
