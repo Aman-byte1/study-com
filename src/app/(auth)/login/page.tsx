@@ -132,6 +132,21 @@ function LoginForm() {
           </div>
         )}
 
+        {!error && urlError === 'profile-creation-failed' && (
+          <div style={{
+            padding: '0.75rem 1rem',
+            background: 'rgba(255, 107, 107, 0.1)',
+            border: '1px solid rgba(255, 107, 107, 0.3)',
+            borderRadius: 'var(--radius-lg)',
+            color: '#ff6b6b',
+            fontSize: 'var(--font-size-sm)',
+            marginBottom: '1.5rem',
+            lineHeight: 1.5,
+          }}>
+            Profile creation failed: {searchParams.get('details') || 'An unexpected database error occurred.'}
+          </div>
+        )}
+
         {!error && message === 'check-email' && (
           <div style={{
             padding: '0.75rem 1rem',
