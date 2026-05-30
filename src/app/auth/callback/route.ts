@@ -19,14 +19,14 @@ export async function GET(request: Request) {
           .eq('id', user.id)
           .single()
 
-        if (profile) {
+        if (profile && profile.role) {
           return NextResponse.redirect(`${origin}/${profile.role}`)
         } else {
-          // If profile does not exist yet (e.g. first-time Google sign up),
-          // create a default student profile so they can enter the application
+          // If profile does not exist yet or has no role set (e.g. first-time Google sign up),
+          // upsert a default student profile so they can enter the application
           const fullName = user.user_metadata?.full_name || user.email?.split('@')[0] || 'Student'
           
-          const { error: profileError } = await supabase.from('profiles').insert({
+          const { error: profileError } = await supabase.from('profiles').upsert({
             id: user.id,
             role: 'student',
             full_name: fullName,

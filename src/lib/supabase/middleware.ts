@@ -163,10 +163,12 @@ export async function updateSession(request: NextRequest) {
         .eq('id', user.id)
         .single()
 
-      const role = profile?.role || 'student'
-      const url = request.nextUrl.clone()
-      url.pathname = `/${role}`
-      return NextResponse.redirect(url)
+      const role = profile?.role
+      if (role) {
+        const url = request.nextUrl.clone()
+        url.pathname = `/${role}`
+        return NextResponse.redirect(url)
+      }
     }
 
     // Role-based route protection
@@ -184,11 +186,19 @@ export async function updateSession(request: NextRequest) {
           .single()
 
         const role = profile?.role
+
+        if (!role) {
+          const url = request.nextUrl.clone()
+          url.pathname = '/login'
+          url.searchParams.set('error', 'profile-not-found')
+          return NextResponse.redirect(url)
+        }
+
         const requiredRole = matchedPrefix.slice(1) // remove leading /
 
         if (role !== requiredRole) {
           const url = request.nextUrl.clone()
-          url.pathname = `/${role || 'student'}`
+          url.pathname = `/${role}`
           return NextResponse.redirect(url)
         }
       }
