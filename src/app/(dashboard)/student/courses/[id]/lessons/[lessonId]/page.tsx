@@ -60,6 +60,7 @@ export default function LessonPlayerPage() {
   if (!lesson) return <div className="empty-state"><div className="empty-state-title">Lesson not found</div></div>
 
   const youtubeId = lesson.video_url ? getYouTubeId(lesson.video_url) : null
+  const isDirectVideo = lesson.video_url && !youtubeId
 
   return (
     <div className="animate-fade-in">
@@ -78,6 +79,15 @@ export default function LessonPlayerPage() {
                 title={lesson.title}
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
+              />
+            </div>
+          ) : isDirectVideo ? (
+            <div className="video-player-wrapper" style={{ marginBottom: '1.5rem', overflow: 'hidden', background: '#000', aspectRatio: '16/9' }}>
+              <video
+                src={lesson.video_url!}
+                controls
+                style={{ width: '100%', height: '100%', display: 'block' }}
+                controlsList="nodownload"
               />
             </div>
           ) : (
