@@ -7,10 +7,10 @@ function Logo() {
     <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
       <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect width="38" height="38" fill="var(--bg-secondary)" stroke="var(--brand-primary)" strokeWidth="1.5" />
-        <path d="M12 26V12H20V26" stroke="var(--brand-primary)" strokeWidth="2" strokeLinecap="square" />
-        <path d="M26 26V15H20" stroke="var(--brand-primary)" strokeWidth="2" strokeLinecap="square" />
-        <line x1="15" y1="18" x2="23" y2="18" stroke="var(--text-tertiary)" strokeWidth="1" />
-        <line x1="15" y1="22" x2="23" y2="22" stroke="var(--text-tertiary)" strokeWidth="1" />
+        <path d="M10 26C14 26 19 24 19 12C19 24 24 26 28 26" stroke="var(--text-primary)" strokeWidth="1.5" strokeLinecap="square" />
+        <path d="M10 14C14 14 19 12 19 10C19 12 24 14 28 14" stroke="var(--text-primary)" strokeWidth="1.5" strokeLinecap="square" />
+        <line x1="19" y1="11" x2="19" y2="28" stroke="var(--brand-primary)" strokeWidth="2" />
+        <circle cx="19" cy="7" r="1.5" fill="var(--brand-primary)" />
       </svg>
       <span style={{
         fontSize: 'var(--font-size-xl)',

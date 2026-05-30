@@ -8,10 +8,10 @@ function Logo() {
     <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
       <svg width="36" height="36" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect width="38" height="38" fill="var(--bg-secondary)" stroke="var(--brand-primary)" strokeWidth="1.5" />
-        <path d="M12 26V12H20V26" stroke="var(--brand-primary)" strokeWidth="2" strokeLinecap="square" />
-        <path d="M26 26V15H20" stroke="var(--brand-primary)" strokeWidth="2" strokeLinecap="square" />
-        <line x1="15" y1="18" x2="23" y2="18" stroke="var(--text-tertiary)" strokeWidth="1" />
-        <line x1="15" y1="22" x2="23" y2="22" stroke="var(--text-tertiary)" strokeWidth="1" />
+        <path d="M10 26C14 26 19 24 19 12C19 24 24 26 28 26" stroke="var(--text-primary)" strokeWidth="1.5" strokeLinecap="square" />
+        <path d="M10 14C14 14 19 12 19 10C19 12 24 14 28 14" stroke="var(--text-primary)" strokeWidth="1.5" strokeLinecap="square" />
+        <line x1="19" y1="11" x2="19" y2="28" stroke="var(--brand-primary)" strokeWidth="2" />
+        <circle cx="19" cy="7" r="1.5" fill="var(--brand-primary)" />
       </svg>
       <span style={{
         fontSize: 'var(--font-size-xl)',
@@ -24,6 +24,118 @@ function Logo() {
       </span>
     </div>
   )
+}
+
+const getFeatureIcon = (code: string, size = 22) => {
+  switch (code) {
+    case 'CURR-0912': // Video Lessons
+      return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter">
+          <rect x="2" y="3" width="20" height="14" />
+          <path d="M10 8l5 3-5 3V8z" fill="currentColor" />
+          <line x1="6" y1="21" x2="18" y2="21" />
+          <line x1="12" y1="17" x2="12" y2="21" />
+        </svg>
+      )
+    case 'EUEE-PREP': // National Prep
+      return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter">
+          <circle cx="12" cy="12" r="10" />
+          <circle cx="12" cy="12" r="6" />
+          <line x1="12" y1="2" x2="12" y2="6" />
+          <line x1="12" y1="18" x2="12" y2="22" />
+          <line x1="2" y1="12" x2="6" y2="12" />
+          <line x1="18" y1="12" x2="22" y2="12" />
+        </svg>
+      )
+    case 'SCHD-AUTO': // AI Scheduling
+      return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter">
+          <rect x="3" y="4" width="18" height="18" />
+          <line x1="16" y1="2" x2="16" y2="6" />
+          <line x1="8" y1="2" x2="8" y2="6" />
+          <line x1="3" y1="10" x2="21" y2="10" />
+          <circle cx="12" cy="16" r="2" fill="currentColor" stroke="none" />
+        </svg>
+      )
+    case 'ANLY-TUTR': // Progress Insights
+      return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter">
+          <path d="M3 3v18h18" />
+          <path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3" />
+        </svg>
+      )
+    case 'CHAT-LIVE': // Tutor Chat
+      return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+        </svg>
+      )
+    case 'DOCS-CURD': // Curated Materials
+      return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+          <polyline points="14 2 14 8 20 8" />
+          <line x1="16" y1="13" x2="8" y2="13" />
+          <line x1="16" y1="17" x2="8" y2="17" />
+        </svg>
+      )
+    default:
+      return null
+  }
+}
+
+const getSubjectIcon = (code: string, size = 32) => {
+  switch (code) {
+    case 'MATH':
+      return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="var(--brand-primary)" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter">
+          <path d="M18 6h-6l-4 12-2-4H3" />
+          <circle cx="12" cy="18" r="1" fill="currentColor" stroke="none" />
+        </svg>
+      )
+    case 'PHYS':
+      return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="var(--brand-primary)" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter">
+          <ellipse cx="12" cy="12" rx="3" ry="9" transform="rotate(30, 12, 12)" />
+          <ellipse cx="12" cy="12" rx="3" ry="9" transform="rotate(-30, 12, 12)" />
+          <circle cx="12" cy="12" r="1.5" fill="var(--brand-primary)" />
+        </svg>
+      )
+    case 'CHEM':
+      return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="var(--brand-primary)" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter">
+          <path d="M6 3h12" />
+          <path d="M9 3v8L4 19c-.5 1-.2 2 .8 2h14.4c1 0 1.3-1 .8-2L15 11V3" />
+          <line x1="6" y1="16" x2="18" y2="16" strokeWidth="1" strokeDasharray="2 2" />
+        </svg>
+      )
+    case 'BIOL':
+      return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="var(--brand-primary)" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter">
+          <path d="M4.5 10.5C4.5 5 12 3 12 3s7.5 2 7.5 7.5c0 5-7.5 10.5-7.5 10.5s-7.5-5.5-7.5-10.5z" />
+          <path d="M12 3v18" />
+          <path d="M4.5 10.5c3.5 1 7.5 1 15 0" />
+        </svg>
+      )
+    case 'ENGL':
+      return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="var(--brand-primary)" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+          <line x1="8" y1="7" x2="16" y2="7" strokeWidth="1.2" />
+          <line x1="8" y1="11" x2="14" y2="11" strokeWidth="1.2" />
+        </svg>
+      )
+    case 'CIVC':
+      return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="var(--brand-primary)" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter">
+          <path d="M12 22V10" />
+          <path d="M12 10L5 7v4c0 3.87 3.13 7 7 7s7-3.13 7-7V7l-7 3z" />
+        </svg>
+      )
+    default:
+      return null
+  }
 }
 
 const features = [
@@ -60,12 +172,12 @@ const features = [
 ]
 
 const subjects = [
-  { name: 'Mathematics', icon: '📐', code: 'MATH' },
-  { name: 'Physics', icon: '⚛️', code: 'PHYS' },
-  { name: 'Chemistry', icon: '🧪', code: 'CHEM' },
-  { name: 'Biology', icon: '🧬', code: 'BIOL' },
-  { name: 'English', icon: '🗣️', code: 'ENGL' },
-  { name: 'Civics', icon: '⚖️', code: 'CIVC' },
+  { name: 'Mathematics', code: 'MATH' },
+  { name: 'Physics', code: 'PHYS' },
+  { name: 'Chemistry', code: 'CHEM' },
+  { name: 'Biology', code: 'BIOL' },
+  { name: 'English', code: 'ENGL' },
+  { name: 'Civics', code: 'CIVC' },
 ]
 
 const steps = [
@@ -366,9 +478,21 @@ export default function LandingPage() {
           }}>
             {features.map((feature, i) => (
               <div key={i} className="card" style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: 'var(--brand-primary)' }}>
-                  [{feature.code}]
-                </span>
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  borderBottom: '1px solid var(--border-secondary)',
+                  paddingBottom: '0.5rem',
+                  marginBottom: '0.25rem'
+                }}>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: 'var(--brand-primary)' }}>
+                    [{feature.code}]
+                  </span>
+                  <span style={{ color: 'var(--brand-primary)', display: 'flex', alignItems: 'center' }}>
+                    {getFeatureIcon(feature.code)}
+                  </span>
+                </div>
                 <h4 style={{ fontSize: 'var(--font-size-lg)', fontWeight: 600, fontFamily: 'var(--font-heading)' }}>
                   {feature.title}
                 </h4>
@@ -409,12 +533,18 @@ export default function LandingPage() {
                   padding: '2rem 1.5rem',
                   textAlign: 'center',
                   boxShadow: '3px 3px 0px rgba(216, 168, 56, 0.05)',
-                  position: 'relative'
+                  position: 'relative',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: '0.5rem'
                 }}
               >
-                <div style={{ fontSize: '2.25rem', marginBottom: '0.75rem' }}>{subject.icon}</div>
+                <div style={{ marginBottom: '0.5rem', display: 'flex', alignItems: 'center' }}>
+                  {getSubjectIcon(subject.code)}
+                </div>
                 <div style={{ fontWeight: 600, fontSize: 'var(--font-size-base)', fontFamily: 'var(--font-heading)' }}>{subject.name}</div>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', color: 'var(--text-tertiary)', marginTop: '0.5rem' }}>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', color: 'var(--text-tertiary)' }}>
                   CLASS: {subject.code}
                 </div>
               </div>

@@ -6,39 +6,211 @@ import { usePathname, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import type { Profile, Notification } from '@/lib/types'
 
+// ============================================
+// CUSTOM HAND-CRAFTED SCHOLARLY SVG ICONS
+// ============================================
+
+function LogoIcon({ size = 36 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="38" height="38" fill="var(--bg-secondary)" stroke="var(--brand-primary)" strokeWidth="1.5" />
+      <path d="M10 26C14 26 19 24 19 12C19 24 24 26 28 26" stroke="var(--text-primary)" strokeWidth="1.5" strokeLinecap="square" />
+      <path d="M10 14C14 14 19 12 19 10C19 12 24 14 28 14" stroke="var(--text-primary)" strokeWidth="1.5" strokeLinecap="square" />
+      <line x1="19" y1="11" x2="19" y2="28" stroke="var(--brand-primary)" strokeWidth="2" />
+      <circle cx="19" cy="7" r="1.5" fill="var(--brand-primary)" />
+    </svg>
+  )
+}
+
+function DashboardIcon({ size = 18 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter">
+      <rect x="3" y="3" width="7" height="9" />
+      <rect x="14" y="3" width="7" height="5" />
+      <rect x="14" y="12" width="7" height="9" />
+      <rect x="3" y="16" width="7" height="5" />
+    </svg>
+  )
+}
+
+function CoursesIcon({ size = 18 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter">
+      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+      <line x1="9" y1="6" x2="16" y2="6" />
+      <line x1="9" y1="10" x2="16" y2="10" />
+    </svg>
+  )
+}
+
+function ScheduleIcon({ size = 18 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter">
+      <rect x="3" y="4" width="18" height="18" />
+      <line x1="16" y1="2" x2="16" y2="6" />
+      <line x1="8" y1="2" x2="8" y2="6" />
+      <line x1="3" y1="10" x2="21" y2="10" />
+      <rect x="7" y="14" width="2" height="2" fill="currentColor" stroke="none" />
+      <rect x="11" y="14" width="2" height="2" fill="currentColor" stroke="none" />
+      <rect x="15" y="14" width="2" height="2" fill="currentColor" stroke="none" />
+    </svg>
+  )
+}
+
+function AssignmentsIcon({ size = 18 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter">
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+      <polyline points="14 2 14 8 20 8" />
+      <line x1="16" y1="13" x2="8" y2="13" />
+      <line x1="16" y1="17" x2="8" y2="17" />
+    </svg>
+  )
+}
+
+function QuizzesIcon({ size = 18 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter">
+      <circle cx="12" cy="12" r="10" />
+      <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+      <line x1="12" y1="17" x2="12.01" y2="17" strokeWidth="2.5" />
+    </svg>
+  )
+}
+
+function ExamPrepIcon({ size = 18 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter">
+      <circle cx="12" cy="12" r="10" />
+      <circle cx="12" cy="12" r="6" />
+      <circle cx="12" cy="12" r="2" fill="currentColor" stroke="none" />
+    </svg>
+  )
+}
+
+function MessagesIcon({ size = 18 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+    </svg>
+  )
+}
+
+function ProgressIcon({ size = 18 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter">
+      <line x1="18" y1="20" x2="18" y2="10" />
+      <line x1="12" y1="20" x2="12" y2="4" />
+      <line x1="6" y1="20" x2="6" y2="14" />
+    </svg>
+  )
+}
+
+function GradesIcon({ size = 18 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter">
+      <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" />
+      <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" />
+      <path d="M4 22h16" />
+      <path d="M10 14.66V17c0 .55-.45 1-1 1H4v2h16v-2h-5c-.55 0-1-.45-1-1v-2.34" />
+      <path d="M12 2a4 4 0 0 1 4 4v7c0 1-.3 2-.86 2.82C14.34 16.7 13.25 17 12 17s-2.34-.3-3.14-1.18C8.3 15 8 14 8 13V6a4 4 0 0 1 4-4z" />
+    </svg>
+  )
+}
+
+function UploadIcon({ size = 18 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter">
+      <path d="M16 16l-4-4-4 4" />
+      <path d="M12 12v9" />
+      <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3" />
+    </svg>
+  )
+}
+
+function StudentsIcon({ size = 18 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter">
+      <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+      <path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5" />
+    </svg>
+  )
+}
+
+function UsersIcon({ size = 18 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter">
+      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+      <circle cx="9" cy="7" r="4" />
+      <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+    </svg>
+  )
+}
+
+function ContentIcon({ size = 18 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter">
+      <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+    </svg>
+  )
+}
+
+const getIcon = (label: string, size = 18) => {
+  switch (label.toLowerCase()) {
+    case 'dashboard': return <DashboardIcon size={size} />
+    case 'my courses': return <CoursesIcon size={size} />
+    case 'schedule': return <ScheduleIcon size={size} />
+    case 'assignments': return <AssignmentsIcon size={size} />
+    case 'quizzes': return <QuizzesIcon size={size} />
+    case 'exam prep': return <ExamPrepIcon size={size} />
+    case 'messages': return <MessagesIcon size={size} />
+    case 'progress': return <ProgressIcon size={size} />
+    case 'grades': return <GradesIcon size={size} />
+    case 'upload content': return <UploadIcon size={size} />
+    case 'students': return <StudentsIcon size={size} />
+    case 'users': return <UsersIcon size={size} />
+    case 'content': return <ContentIcon size={size} />
+    case 'schedules': return <ScheduleIcon size={size} />
+    case 'analytics': return <ProgressIcon size={size} />
+    default: return null
+  }
+}
+
 const navItems = {
   student: [
-    { label: 'Dashboard', icon: '🏠', href: '/student' },
-    { label: 'My Courses', icon: '📚', href: '/student/courses' },
-    { label: 'Schedule', icon: '📅', href: '/student/schedule' },
-    { label: 'Assignments', icon: '📝', href: '/student/assignments' },
-    { label: 'Quizzes', icon: '❓', href: '/student/quizzes' },
-    { label: 'Exam Prep', icon: '🎯', href: '/student/exam-prep' },
-    { label: 'Messages', icon: '💬', href: '/student/messages' },
+    { label: 'Dashboard', href: '/student' },
+    { label: 'My Courses', href: '/student/courses' },
+    { label: 'Schedule', href: '/student/schedule' },
+    { label: 'Assignments', href: '/student/assignments' },
+    { label: 'Quizzes', href: '/student/quizzes' },
+    { label: 'Exam Prep', href: '/student/exam-prep' },
+    { label: 'Messages', href: '/student/messages' },
   ],
   parent: [
-    { label: 'Dashboard', icon: '🏠', href: '/parent' },
-    { label: 'Progress', icon: '📊', href: '/parent/progress' },
-    { label: 'Schedule', icon: '📅', href: '/parent/schedule' },
-    { label: 'Grades', icon: '🏆', href: '/parent/grades' },
+    { label: 'Dashboard', href: '/parent' },
+    { label: 'Progress', href: '/parent/progress' },
+    { label: 'Schedule', href: '/parent/schedule' },
+    { label: 'Grades', href: '/parent/grades' },
   ],
   tutor: [
-    { label: 'Dashboard', icon: '🏠', href: '/tutor' },
-    { label: 'My Courses', icon: '📚', href: '/tutor/courses' },
-    { label: 'Upload Content', icon: '📤', href: '/tutor/upload' },
-    { label: 'Assignments', icon: '📝', href: '/tutor/assignments' },
-    { label: 'Quizzes', icon: '❓', href: '/tutor/quizzes' },
-    { label: 'Students', icon: '🎓', href: '/tutor/students' },
-    { label: 'Schedule', icon: '📅', href: '/tutor/schedule' },
-    { label: 'Messages', icon: '💬', href: '/tutor/messages' },
+    { label: 'Dashboard', href: '/tutor' },
+    { label: 'My Courses', href: '/tutor/courses' },
+    { label: 'Upload Content', href: '/tutor/upload' },
+    { label: 'Assignments', href: '/tutor/assignments' },
+    { label: 'Quizzes', href: '/tutor/quizzes' },
+    { label: 'Students', href: '/tutor/students' },
+    { label: 'Schedule', href: '/tutor/schedule' },
+    { label: 'Messages', href: '/tutor/messages' },
   ],
   admin: [
-    { label: 'Dashboard', icon: '🏠', href: '/admin' },
-    { label: 'Users', icon: '👥', href: '/admin/users' },
-    { label: 'Courses', icon: '📚', href: '/admin/courses' },
-    { label: 'Content', icon: '📁', href: '/admin/content' },
-    { label: 'Schedules', icon: '📅', href: '/admin/schedules' },
-    { label: 'Analytics', icon: '📊', href: '/admin/analytics' },
+    { label: 'Dashboard', href: '/admin' },
+    { label: 'Users', href: '/admin/users' },
+    { label: 'Courses', href: '/admin/courses' },
+    { label: 'Content', href: '/admin/content' },
+    { label: 'Schedules', href: '/admin/schedules' },
+    { label: 'Analytics', href: '/admin/analytics' },
   ],
 }
 
@@ -138,11 +310,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       {/* Sidebar */}
       <aside className="sidebar dots-pattern">
         <div className="sidebar-logo">
-          <svg width="28" height="28" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="38" height="38" fill="var(--bg-secondary)" stroke="var(--brand-primary)" strokeWidth="1.5" />
-            <path d="M12 26V12H20V26" stroke="var(--brand-primary)" strokeWidth="2" strokeLinecap="square" />
-            <path d="M26 26V15H20" stroke="var(--brand-primary)" strokeWidth="2" strokeLinecap="square" />
-          </svg>
+          <LogoIcon size={28} />
           <span style={{
             fontSize: 'var(--font-size-lg)',
             fontWeight: 600,
@@ -173,7 +341,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                   color: isActive ? 'var(--text-primary)' : 'var(--text-secondary)'
                 }}
               >
-                <span className="sidebar-link-icon">{item.icon}</span>
+                <span className="sidebar-link-icon" style={{ display: 'flex', alignItems: 'center' }}>
+                  {getIcon(item.label)}
+                </span>
                 <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8rem', letterSpacing: '0.02em' }}>{item.label.toUpperCase()}</span>
               </Link>
             )
@@ -334,7 +504,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 className={`mobile-nav-item ${isActive ? 'active' : ''}`}
                 style={{ color: isActive ? 'var(--brand-primary)' : 'var(--text-tertiary)' }}
               >
-                {item.icon}
+                <span style={{ display: 'flex', alignItems: 'center', marginBottom: '2px' }}>
+                  {getIcon(item.label, 20)}
+                </span>
                 <span style={{ fontFamily: 'var(--font-mono)' }}>{item.label.toUpperCase()}</span>
               </Link>
             )

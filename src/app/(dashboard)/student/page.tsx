@@ -5,6 +5,125 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
 import type { Course, Schedule, Assignment, QuizAttempt } from '@/lib/types'
 
+// ============================================
+// CUSTOM HAND-CRAFTED EDITORIAL SVG ICONS
+// ============================================
+
+function CoursesIcon({ size = 20 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter">
+      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+      <line x1="9" y1="6" x2="16" y2="6" />
+      <line x1="9" y1="10" x2="16" y2="10" />
+    </svg>
+  )
+}
+
+function ExamPrepIcon({ size = 20 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter">
+      <circle cx="12" cy="12" r="10" />
+      <circle cx="12" cy="12" r="6" />
+      <circle cx="12" cy="12" r="2" fill="currentColor" stroke="none" />
+    </svg>
+  )
+}
+
+function QuizzesIcon({ size = 20 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter">
+      <circle cx="12" cy="12" r="10" />
+      <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+      <line x1="12" y1="17" x2="12.01" y2="17" strokeWidth="2.5" />
+    </svg>
+  )
+}
+
+function ScheduleIcon({ size = 20 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter">
+      <rect x="3" y="4" width="18" height="18" />
+      <line x1="16" y1="2" x2="16" y2="6" />
+      <line x1="8" y1="2" x2="8" y2="6" />
+      <line x1="3" y1="10" x2="21" y2="10" />
+      <circle cx="12" cy="16" r="1.5" fill="currentColor" stroke="none" />
+    </svg>
+  )
+}
+
+function MessagesIcon({ size = 20 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+    </svg>
+  )
+}
+
+const getCourseIcon = (title: string, size = 32) => {
+  const t = title.toLowerCase()
+  if (t.includes('math')) {
+    return (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="var(--brand-primary)" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter">
+        <path d="M18 6h-6l-4 12-2-4H3" />
+        <circle cx="12" cy="18" r="1" fill="currentColor" stroke="none" />
+      </svg>
+    )
+  }
+  if (t.includes('phys')) {
+    return (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="var(--brand-primary)" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter">
+        <ellipse cx="12" cy="12" rx="3" ry="9" transform="rotate(30, 12, 12)" />
+        <ellipse cx="12" cy="12" rx="3" ry="9" transform="rotate(-30, 12, 12)" />
+        <circle cx="12" cy="12" r="1.5" fill="var(--brand-primary)" />
+      </svg>
+    )
+  }
+  if (t.includes('chem')) {
+    return (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="var(--brand-primary)" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter">
+        <path d="M6 3h12" />
+        <path d="M9 3v8L4 19c-.5 1-.2 2 .8 2h14.4c1 0 1.3-1 .8-2L15 11V3" />
+      </svg>
+    )
+  }
+  if (t.includes('biol')) {
+    return (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="var(--brand-primary)" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter">
+        <path d="M4.5 10.5C4.5 5 12 3 12 3s7.5 2 7.5 7.5c0 5-7.5 10.5-7.5 10.5s-7.5-5.5-7.5-10.5z" />
+        <path d="M12 3v18" />
+        <path d="M4.5 10.5c3.5 1 7.5 1 15 0" />
+      </svg>
+    )
+  }
+  if (t.includes('engl')) {
+    return (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="var(--brand-primary)" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+        <line x1="8" y1="7" x2="16" y2="7" strokeWidth="1.2" />
+        <line x1="8" y1="11" x2="14" y2="11" strokeWidth="1.2" />
+      </svg>
+    )
+  }
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="var(--brand-primary)" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter">
+      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+    </svg>
+  )
+}
+
+const getActionIcon = (label: string) => {
+  switch (label.toLowerCase()) {
+    case 'my courses': return <CoursesIcon />
+    case 'exam prep': return <ExamPrepIcon />
+    case 'take quiz': return <QuizzesIcon />
+    case 'schedule': return <ScheduleIcon />
+    case 'ask tutor': return <MessagesIcon />
+    default: return null
+  }
+}
+
 export default function StudentDashboard() {
   const [courses, setCourses] = useState<Course[]>([])
   const [schedules, setSchedules] = useState<Schedule[]>([])
@@ -111,15 +230,17 @@ export default function StudentDashboard() {
       </h3>
       <div className="quick-actions" style={{ marginBottom: '2.5rem' }}>
         {[
-          { label: 'My Courses', icon: '📚', href: '/student/courses' },
-          { label: 'Exam Prep', icon: '🎯', href: '/student/exam-prep' },
-          { label: 'Take Quiz', icon: '❓', href: '/student/quizzes' },
-          { label: 'Schedule', icon: '📅', href: '/student/schedule' },
-          { label: 'Ask Tutor', icon: '💬', href: '/student/messages' }
+          { label: 'My Courses', href: '/student/courses' },
+          { label: 'Exam Prep', href: '/student/exam-prep' },
+          { label: 'Take Quiz', href: '/student/quizzes' },
+          { label: 'Schedule', href: '/student/schedule' },
+          { label: 'Ask Tutor', href: '/student/messages' }
         ].map((act, i) => (
-          <Link key={i} href={act.href} className="quick-action" style={{ borderRadius: 0, border: '1px solid var(--border-primary)', background: 'var(--bg-secondary)' }}>
-            <span className="quick-action-icon">{act.icon}</span>
-            <span className="quick-action-label" style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', textTransform: 'uppercase' }}>{act.label}</span>
+          <Link key={i} href={act.href} className="quick-action" style={{ borderRadius: 0, border: '1px solid var(--border-primary)', background: 'var(--bg-secondary)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+            <span className="quick-action-icon" style={{ display: 'flex', alignItems: 'center', color: 'var(--brand-primary)' }}>
+              {getActionIcon(act.label)}
+            </span>
+            <span className="quick-action-label" style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', textTransform: 'uppercase', marginTop: '0.5rem' }}>{act.label}</span>
           </Link>
         ))}
       </div>
@@ -247,8 +368,10 @@ export default function StudentDashboard() {
         </div>
         {courses.length === 0 ? (
           <div className="empty-state" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-primary)', borderRadius: 0 }}>
-            <div className="empty-state-icon">📚</div>
-            <div className="empty-state-title" style={{ fontFamily: 'var(--font-heading)' }}>No Enrolled Courses Yet</div>
+            <div className="empty-state-icon" style={{ display: 'inline-flex', color: 'var(--brand-primary)' }}>
+              <CoursesIcon size={40} />
+            </div>
+            <div className="empty-state-title" style={{ fontFamily: 'var(--font-heading)', marginTop: '1rem' }}>No Enrolled Courses Yet</div>
             <div className="empty-state-text" style={{ fontSize: 'var(--font-size-sm)' }}>You haven&apos;t been registered for any classes. Contact your supervisor or teacher to get started.</div>
             <Link href="/student/messages" className="btn btn-primary btn-sm">Message Tutor</Link>
           </div>
@@ -258,7 +381,6 @@ export default function StudentDashboard() {
               <Link key={course.id} href={`/student/courses/${course.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                 <div className="course-card" style={{ borderRadius: 0, border: '1px solid var(--border-primary)', background: 'var(--bg-secondary)' }}>
                   <div className="course-card-header" style={{
-                    fontSize: '2rem',
                     background: 'rgba(216, 168, 56, 0.03)',
                     display: 'flex',
                     alignItems: 'center',
@@ -267,11 +389,7 @@ export default function StudentDashboard() {
                     borderBottom: '1px solid var(--border-primary)',
                     borderRadius: 0
                   }}>
-                    {course.title.toLowerCase().includes('math') ? '📐' : 
-                     course.title.toLowerCase().includes('phys') ? '⚛️' :
-                     course.title.toLowerCase().includes('chem') ? '🧪' :
-                     course.title.toLowerCase().includes('biol') ? '🧬' :
-                     course.title.toLowerCase().includes('engl') ? '🗣️' : '📖'}
+                    {getCourseIcon(course.title)}
                   </div>
                   <div className="course-card-body" style={{ padding: '1.25rem' }}>
                     <div className="course-card-title" style={{ fontWeight: 600, fontSize: 'var(--font-size-base)', marginBottom: '0.375rem', fontFamily: 'var(--font-heading)' }}>
