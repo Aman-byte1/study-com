@@ -6,19 +6,54 @@ export async function updateSession(request: NextRequest) {
     request,
   })
 
+  // 1. Safety Guard for Environment Variables
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+  if (!supabaseUrl || !supabaseKey) {
+    console.warn('Supabase URL or Anon Key is missing in environment variables. Skipping auth check.')
+    return supabaseResponse
+  }
+
   const storageKey = 'sb-elusyuvarygdxupkvkwi-auth-token'
+
+  // UTF-8 safe base64url decoding
+  const decodeBase64Url = (base64url: string) => {
+    try {
+      const base64 = base64url.replace(/-/g, '+').replace(/_/g, '/')
+      const binString = atob(base64)
+      const bytes = Uint8Array.from(binString, (m) => m.codePointAt(0)!)
+      return new TextDecoder().decode(bytes)
+    } catch (e) {
+      console.error('Error decoding cookie base64url:', e)
+      return null
+    }
+  }
+
+  // UTF-8 safe base64url encoding
+  const encodeBase64Url = (str: string) => {
+    try {
+      const bytes = new TextEncoder().encode(str)
+      let binString = ''
+      bytes.forEach((b) => {
+        binString += String.fromCharCode(b)
+      })
+      return `base64-${btoa(binString)
+        .replace(/\+/g, '-')
+        .replace(/\//g, '_')
+        .replace(/=+$/, '')}`
+    } catch (e) {
+      console.error('Error encoding cookie base64url:', e)
+      return ''
+    }
+  }
 
   const getCookieValue = () => {
     // Try single cookie first
     const single = request.cookies.get(storageKey)?.value
     if (single) {
       if (single.startsWith('base64-')) {
-        try {
-          const base64 = single.substring('base64-'.length)
-          return atob(base64.replace(/-/g, '+').replace(/_/g, '/'))
-        } catch {
-          return single
-        }
+        return decodeBase64Url(single.substring('base64-'.length))
       }
       return single
     }
@@ -37,12 +72,7 @@ export async function updateSession(request: NextRequest) {
     if (chunks.length > 0) {
       const combined = chunks.join('')
       if (combined.startsWith('base64-')) {
-        try {
-          const base64 = combined.substring('base64-'.length)
-          return atob(base64.replace(/-/g, '+').replace(/_/g, '/'))
-        } catch {
-          return combined
-        }
+        return decodeBase64Url(combined.substring('base64-'.length))
       }
       return combined
     }
@@ -51,8 +81,8 @@ export async function updateSession(request: NextRequest) {
   }
 
   const setCookieValue = (value: string) => {
-    const base64 = btoa(value).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '')
-    const encoded = `base64-${base64}`
+    const encoded = encodeBase64Url(value)
+    if (!encoded) return
 
     request.cookies.set(storageKey, encoded)
     supabaseResponse = NextResponse.next({
@@ -98,10 +128,9 @@ export async function updateSession(request: NextRequest) {
     },
   }
 
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
+  // 2. Wrap all auth flow logic in try-catch to prevent routing lockups
+  try {
+    const supabase = createClient(supabaseUrl, supabaseKey, {
       auth: {
         storageKey,
         storage: customStorage,
@@ -109,61 +138,63 @@ export async function updateSession(request: NextRequest) {
         persistSession: true,
         detectSessionInUrl: false,
       },
+    })
+
+    const {
+      data: { user },
+    } = await supabase.auth.getUser()
+
+    // Public routes that don't require authentication
+    const publicRoutes = ['/', '/login', '/signup']
+    const isPublicRoute = publicRoutes.some(route => request.nextUrl.pathname === route)
+
+    if (!user && !isPublicRoute) {
+      const url = request.nextUrl.clone()
+      url.pathname = '/login'
+      return NextResponse.redirect(url)
     }
-  )
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-
-  // Public routes that don't require authentication
-  const publicRoutes = ['/', '/login', '/signup']
-  const isPublicRoute = publicRoutes.some(route => request.nextUrl.pathname === route)
-
-  if (!user && !isPublicRoute) {
-    const url = request.nextUrl.clone()
-    url.pathname = '/login'
-    return NextResponse.redirect(url)
-  }
-
-  // If authenticated user visits login/signup, redirect to dashboard
-  if (user && (request.nextUrl.pathname === '/login' || request.nextUrl.pathname === '/signup')) {
-    // Get user role from profile
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('role')
-      .eq('id', user.id)
-      .single()
-
-    const role = profile?.role || 'student'
-    const url = request.nextUrl.clone()
-    url.pathname = `/${role}`
-    return NextResponse.redirect(url)
-  }
-
-  // Role-based route protection
-  if (user) {
-    const protectedPrefixes = ['/student', '/parent', '/tutor', '/admin']
-    const matchedPrefix = protectedPrefixes.find(prefix =>
-      request.nextUrl.pathname.startsWith(prefix)
-    )
-
-    if (matchedPrefix) {
+    // If authenticated user visits login/signup, redirect to dashboard
+    if (user && (request.nextUrl.pathname === '/login' || request.nextUrl.pathname === '/signup')) {
+      // Get user role from profile
       const { data: profile } = await supabase
         .from('profiles')
         .select('role')
         .eq('id', user.id)
         .single()
 
-      const role = profile?.role
-      const requiredRole = matchedPrefix.slice(1) // remove leading /
+      const role = profile?.role || 'student'
+      const url = request.nextUrl.clone()
+      url.pathname = `/${role}`
+      return NextResponse.redirect(url)
+    }
 
-      if (role !== requiredRole) {
-        const url = request.nextUrl.clone()
-        url.pathname = `/${role || 'student'}`
-        return NextResponse.redirect(url)
+    // Role-based route protection
+    if (user) {
+      const protectedPrefixes = ['/student', '/parent', '/tutor', '/admin']
+      const matchedPrefix = protectedPrefixes.find(prefix =>
+        request.nextUrl.pathname.startsWith(prefix)
+      )
+
+      if (matchedPrefix) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('role')
+          .eq('id', user.id)
+          .single()
+
+        const role = profile?.role
+        const requiredRole = matchedPrefix.slice(1) // remove leading /
+
+        if (role !== requiredRole) {
+          const url = request.nextUrl.clone()
+          url.pathname = `/${role || 'student'}`
+          return NextResponse.redirect(url)
+        }
       }
     }
+  } catch (err) {
+    console.error('Unexpected error in middleware auth flow:', err)
   }
 
   return supabaseResponse
