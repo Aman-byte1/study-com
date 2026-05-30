@@ -48,6 +48,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const [showNotifs, setShowNotifs] = useState(false)
   const [showUserMenu, setShowUserMenu] = useState(false)
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [greeting, setGreeting] = useState('Welcome')
   const pathname = usePathname()
   const router = useRouter()
 
@@ -82,10 +83,41 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     loadProfile()
   }, [loadProfile])
 
+  useEffect(() => {
+    const hour = new Date().getHours()
+    if (hour < 12) setGreeting('Good morning')
+    else if (hour < 17) setGreeting('Good afternoon')
+    else setGreeting('Good evening')
+  }, [])
+
   const handleLogout = async () => {
     const supabase = createClient()
     await supabase.auth.signOut()
     router.push('/login')
+  }
+
+  const getBreadcrumbs = () => {
+    const paths = pathname.split('/').filter(Boolean)
+    return paths.map((path, idx) => {
+      const href = '/' + paths.slice(0, idx + 1).join('/')
+      let label = path.charAt(0).toUpperCase() + path.slice(1)
+      if (label === 'Student') label = 'Home'
+      if (label === 'Tutor') label = 'Home'
+      if (label === 'Parent') label = 'Home'
+      if (label === 'Admin') label = 'Home'
+
+      const isLast = idx === paths.length - 1
+      return (
+        <span key={href} style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', fontSize: 'var(--font-size-xs)' }}>
+          {idx > 0 && <span style={{ color: 'var(--text-tertiary)', margin: '0 2px' }}>/</span>}
+          {isLast ? (
+            <span style={{ color: 'var(--brand-primary-light)', fontWeight: 600 }}>{label}</span>
+          ) : (
+            <Link href={href} style={{ color: 'var(--text-secondary)', textDecoration: 'none' }}>{label}</Link>
+          )}
+        </span>
+      )
+    })
   }
 
   if (!profile) {
@@ -98,14 +130,27 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   const items = navItems[profile.role] || navItems.student
   const unreadCount = notifications.filter(n => !n.is_read).length
-  const initials = profile.full_name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)
+  const initials = profile.full_name ? profile.full_name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2) : 'U'
+  const firstName = profile.full_name ? profile.full_name.split(' ')[0] : 'User'
 
   return (
     <div>
       {/* Sidebar */}
       <aside className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
         <div className="sidebar-logo">
-          <div className="sidebar-logo-icon">📖</div>
+          <svg width="28" height="28" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="38" height="38" rx="10" fill="url(#logoGradSidebar)" />
+            <path d="M11 26V13C11 11.8954 11.8954 11 13 11H19C20.1046 11 21 11.8954 21 13V26" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
+            <path d="M27 26V15C27 13.8954 26.1046 13 25 13H21" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
+            <path d="M14 22H24" stroke="white" strokeWidth="2" strokeOpacity="0.4" />
+            <path d="M14 18H24" stroke="white" strokeWidth="2" strokeOpacity="0.4" />
+            <defs>
+              <linearGradient id="logoGradSidebar" x1="0" y1="0" x2="38" y2="38" gradientUnits="userSpaceOnUse">
+                <stop stopColor="#6c5ce7" />
+                <stop offset="1" stopColor="#a29bfe" />
+              </linearGradient>
+            </defs>
+          </svg>
           <span className="sidebar-logo-text">StudyCom</span>
         </div>
 
@@ -129,16 +174,28 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         <div className="sidebar-footer">
           <div style={{
             display: 'flex', alignItems: 'center', gap: '0.75rem',
-            padding: '0.75rem', borderRadius: 'var(--radius-lg)',
+            padding: '0.85rem', borderRadius: 'var(--radius-xl)',
             background: 'var(--bg-glass)',
+            border: '1px solid var(--border-secondary)',
           }}>
-            <div className="avatar avatar-sm">{initials}</div>
+            <div className="avatar avatar-sm" style={{ background: 'var(--gradient-brand)', color: 'white', fontWeight: 700 }}>{initials}</div>
             <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ fontSize: 'var(--font-size-sm)', fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+              <div style={{ fontSize: 'var(--font-size-sm)', fontWeight: 700, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                 {profile.full_name}
               </div>
-              <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-tertiary)', textTransform: 'capitalize' }}>
-                {profile.role}
+              <div style={{ display: 'inline-flex', marginTop: '2px' }}>
+                <span style={{
+                  fontSize: '9px',
+                  fontWeight: 800,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.04em',
+                  background: 'rgba(108, 92, 231, 0.15)',
+                  color: 'var(--brand-primary-light)',
+                  padding: '1px 6px',
+                  borderRadius: 'var(--radius-sm)',
+                }}>
+                  {profile.role}
+                </span>
               </div>
             </div>
           </div>
@@ -163,9 +220,14 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           <button className="mobile-menu-btn" onClick={() => setSidebarOpen(!sidebarOpen)}>
             ☰
           </button>
-          <h1 className="topbar-title">
-            {items.find(i => i.href === pathname)?.label || 'Dashboard'}
-          </h1>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', textAlign: 'left' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+              {getBreadcrumbs()}
+            </div>
+            <h2 className="topbar-title" style={{ margin: 0, fontSize: 'var(--font-size-lg)', fontWeight: 800, fontFamily: 'var(--font-heading)' }}>
+              {greeting}, {firstName} 👋
+            </h2>
+          </div>
         </div>
 
         <div className="topbar-right">
@@ -212,13 +274,13 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 color: 'var(--text-primary)',
               }}
             >
-              <div className="avatar avatar-sm">{initials}</div>
+              <div className="avatar avatar-sm" style={{ background: 'var(--gradient-brand)', color: 'white', fontWeight: 700 }}>{initials}</div>
             </button>
             {showUserMenu && (
               <div className="user-dropdown">
                 <div style={{ padding: '0.75rem 1rem', borderBottom: '1px solid var(--border-secondary)' }}>
-                  <div style={{ fontWeight: 600, fontSize: 'var(--font-size-sm)' }}>{profile.full_name}</div>
-                  <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-tertiary)' }}>{profile.role}</div>
+                  <div style={{ fontWeight: 700, fontSize: 'var(--font-size-sm)' }}>{profile.full_name}</div>
+                  <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-tertiary)', textTransform: 'capitalize' }}>{profile.role}</div>
                 </div>
                 <div style={{ padding: '0.25rem' }}>
                   <button className="user-dropdown-item" onClick={handleLogout}>
@@ -235,6 +297,25 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       <main className="main-content">
         {children}
       </main>
+
+      {/* Mobile Bottom Nav Bar */}
+      <nav className="mobile-bottom-nav">
+        <div className="mobile-bottom-nav-inner">
+          {items.slice(0, 5).map(item => {
+            const isActive = pathname === item.href
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`mobile-nav-item ${isActive ? 'active' : ''}`}
+              >
+                {item.icon}
+                <span>{item.label}</span>
+              </Link>
+            )
+          })}
+        </div>
+      </nav>
 
       {/* Click outside to close dropdowns */}
       {(showNotifs || showUserMenu) && (
